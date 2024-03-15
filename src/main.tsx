@@ -6,8 +6,21 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Profile from "./components/auth0/profile.tsx";
 
 const queryClient = new QueryClient();
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  }
+]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -17,7 +30,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       authorizationParams={{ redirectUri: window.location.origin }}
     >
       <QueryClientProvider client={queryClient}>
-        <App />
+        <RouterProvider router={router} />
       </QueryClientProvider>
       <ToastContainer
         position="bottom-right"

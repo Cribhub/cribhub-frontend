@@ -1,11 +1,11 @@
 import "./App.css";
+import ButtonAppBar from "./components/navBar";
 import { TodoPage } from "./pages/todoPage";
 
 const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
+      <ButtonAppBar />
       <TodoPage />
     </div>
   );
