@@ -34,9 +34,8 @@ export default function AddTodoButton() {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries((formData as FormData).entries());
             const title = formJson.title as string;
-            const randomId = Math.floor(Math.random() * 1000);
 
-            //Add unique id that changes with each new todo
+            const randomId = Math.floor(Math.random() * 1000);
             mutation.mutate({id: randomId, title: title, completed: false});
             handleClose();
           },
