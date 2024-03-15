@@ -1,13 +1,11 @@
 import { useQuery } from 'react-query';
-import api from '../utils/api';
-
-const getTodos = async () => {
-    const { data } = await api.get('/todos');
-    return data;
-}
+import { getTodos } from '../lib/getTodos';
 
 const useGetTodos = () => {
-    return useQuery('todos', getTodos);
+    return useQuery({ 
+        queryKey: ['todos'], 
+        queryFn: getTodos
+    });
 }
 
 export default useGetTodos;

@@ -5,9 +5,11 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { usePostTodo } from '../hooks/usePostTodo';
 
 export default function AddTodoButton() {
   const [open, setOpen] = React.useState(false);
+  const mutation = usePostTodo();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,8 +33,11 @@ export default function AddTodoButton() {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries((formData as FormData).entries());
-            const title = formJson.title;
-            console.log(title);
+            const title = formJson.title as string;
+            const randomId = Math.floor(Math.random() * 1000);
+
+            //Add unique id that changes with each new todo
+            mutation.mutate({id: randomId, title: title, completed: false});
             handleClose();
           },
         }}
