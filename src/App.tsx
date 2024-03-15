@@ -1,7 +1,10 @@
 import "./App.css";
-import { Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 import TodoList from "./components/todoList";
+import LoginButton from "./components/auth0/loginButton";
+import Profile from "./components/auth0/profile";
+import LogoutButton from "./components/auth0/logoutButton";
 
 const queryClient = new QueryClient();
 
@@ -12,8 +15,31 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
     <div className="App">
       <header className="App-header">
-        <Typography m={4} variant="h3">Todo List</Typography>
-        <TodoList />
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          p={4}
+          width={'100%'}
+        >
+          <Box>
+            <Profile />
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              p={4}
+              >
+                <LoginButton />
+                <LogoutButton />
+            </Box>
+          </Box>
+          <Box>
+            <Typography m={4} variant="h3">Todo List</Typography>
+            <TodoList />
+          </Box>
+        </Box>
       </header>
     </div>
     </QueryClientProvider>

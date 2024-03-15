@@ -30,7 +30,7 @@ export default function AddTodoButton() {
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries((formData as any).entries());
+            const formJson = Object.fromEntries((formData as FormData).entries());
             const title = formJson.title;
             console.log(title);
             handleClose();
