@@ -2,6 +2,7 @@ import TodoItem from './todoItem';
 import { Box, Button } from '@mui/material';
 import useGetTodos from '../hooks/useGetTodos';
 import { Todo } from '../types/Todo.interface';
+import AddTodoButton from './addTodoButton';
 
 const TodoList = () => {
   const { data: todos, isLoading, isError } = useGetTodos();
@@ -14,7 +15,7 @@ const TodoList = () => {
       {todos.map((todo: Todo, index: number) => (
         <TodoItem key={index} title={todo.title} completed={todo.completed} />
       ))}
-      <Button variant="contained" color="primary">Add Todo</Button>
+      <AddTodoButton/> 
     </Box>
   );
 }
