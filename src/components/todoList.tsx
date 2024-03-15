@@ -1,5 +1,5 @@
 import TodoItem from './todoItem';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import useGetTodos from '../hooks/useGetTodos';
 import { Todo } from '../types/Todo.interface';
 import AddTodoButton from './addTodoButton';
