@@ -1,5 +1,5 @@
 import "./App.css";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 import TodoList from "./components/todoList";
 import LoginButton from "./components/auth0/loginButton";
