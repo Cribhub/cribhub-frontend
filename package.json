@@ -19,6 +19,7 @@
     "react-scripts": "^5.0.1",
     "reactjs-popup": "^2.0.6",
     "rsuite": "^5.59.0",
+    "serve": "^14.2.1",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
