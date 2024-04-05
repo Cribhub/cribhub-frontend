@@ -1,0 +1,66 @@
+body {
+    background-color: #588157;
+}
+
+.container{
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.my-image {
+    width: 400px;
+    height: 400px;
+}
+
+.logo{
+    flex: 1;
+    width: 100%;
+    align-items: center;
+    background-color: #b0c4b1;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100vh;
+}
+
+.form {
+    align-items: center;
+    background-color: #3a5a40;
+    box-shadow: 0 8px 8px #4C424A;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100vh; /* Set the height to 100% of the viewport height */
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* For smaller devices */
+@media screen and (max-width: 768px) {
+    .login-view .form {
+        width: 90%;
+    }
+}
+
+.text-wrapper-3, .text-wrapper-4 {
+    width: 100%;
+    max-width: 800px;
+    color: #dad7cd;
+    font-size: 120%;
+    font-family: "Arial Black";
+    text-align: center; /* To center the text within its container */
+}
+
+.span {
+    width: 100%;
+    max-width: 800px;
+}
+

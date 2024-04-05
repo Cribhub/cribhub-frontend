@@ -1,0 +1,29 @@
+/* Input.css */
+.input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-small {
+    font-size: 12px;
+    padding: 6px;
+}
+
+.input-medium {
+    font-size: 14px;
+    padding: 8px;
+}
+
+.input-large {
+    font-size: 16px;
+    padding: 10px;
+}
+
+.input-rounded {
+    border-radius: 15px;
+}
+
+.input-square {
+    border-radius: 0;
+}

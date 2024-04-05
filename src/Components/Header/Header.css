@@ -1,0 +1,24 @@
+.header {
+    color: #dad7cd;
+    background-color: #3a5a40;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.my-image2 {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px; /* Add some spacing between the image and the text */
+}
+
+.text{
+    margin-right:20px
+}
+
+
+#logoutText{
+    margin-left: auto;
+}
