@@ -4,7 +4,7 @@ import Input from '../Components/TextInput'
 import Button from '../Components/Button/Button'
 import {useState} from "react";
 import {useNavigate} from "react-router-dom"
-import axios from "axios";
+import api from '../api';
 import Cookies from "js-cookie";
 import ParseJwt from "./parseJwt";
 
@@ -28,7 +28,7 @@ function CreateCrib() {
     function joinCrib(cribIdValue) {
         let userId = payload.customerId;
         console.log(userId)
-        axios.post(`http://localhost:8080/customer/${userId}/join/${cribIdValue}`)
+        api.post(`/customer/${userId}/join/${cribIdValue}`)
             .then(response => {
                 console.log('Successfully joined crib:', response.data);
                 navigate("/mainmenu")
@@ -42,7 +42,7 @@ function CreateCrib() {
 
 
     function createCribButton(){
-            axios.post("http://localhost:8080/cribs", {"cribName":cribNameValue}).then(response => {
+            api.post("/cribs", {"cribName":cribNameValue}).then(response => {
                 console.log(response.data.cribId)
                 let cribID = response.data.cribId
                 console.log("cribid" + cribID)

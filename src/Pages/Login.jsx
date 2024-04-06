@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Input from '../Components/TextInput'
 import Button from "../Components/Button/Button";
 import myImage from "../Logo_GreyBg.PNG"
-import axios from "axios";
+import api from '../api';
 import Cookies from 'js-cookie';
 
 
@@ -30,7 +30,7 @@ function Login() {
 
     async function checkIfCustomerHasCrib(userId) {
         try {
-            const response = await axios.get(`http://localhost:8080/customer/${userId}`);
+            const response = await api.get(`/customer/${userId}`);
             return response.data.cribId !== null;
         } catch (error) {
             console.error('Error fetching customer:', error);
@@ -55,7 +55,7 @@ function Login() {
 
     async function loginButtonOnclick() {
         try {
-            const response = await axios.post("http://localhost:8080/login", loginData);
+            const response = await api.post("/login", loginData);
             Cookies.set('Token', response.data.token);
             const payload = parseJwt(response.data.token);
             let userID = payload.customerId;
@@ -72,8 +72,6 @@ function Login() {
             console.log(error);
         }
     }
-
-
 
 
     return (

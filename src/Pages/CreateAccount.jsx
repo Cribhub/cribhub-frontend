@@ -5,7 +5,7 @@ import Button from '../Components/Button/Button'
 import {NavLink} from "react-router-dom";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom"
-import axios from "axios";
+import api from "../api";
 
 
 
@@ -55,7 +55,7 @@ function CreateAccount() {
                 "email": emailValue,
                 "password": passwordValue}
 
-            axios.post("http://localhost:8080/customer", user).then(response => {
+            api.post("/customer", user).then(response => {
                 navigate("/" )
                 console.log(response)
             }).catch(error => {

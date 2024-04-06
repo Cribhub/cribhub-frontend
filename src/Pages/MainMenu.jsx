@@ -5,7 +5,7 @@ import 'rsuite/dist/rsuite.min.css';
 import "./MainMenu.css"
 import Header from '../Components/Header/Header'
 import Cookies from 'js-cookie';
-import axios from "axios";
+import api from '../api';
 import {useEffect, useState} from "react";
 import parseJwt from "./parseJwt";
 import Popup from 'reactjs-popup';
@@ -41,7 +41,7 @@ function MainMenu() {
 
 
     function getCustomerCrib(userId) {
-        axios.get(`http://localhost:8080/customer/${userId}`)
+        api.get(`/customer/${userId}`)
             .then(response => {
                 setCustomerCrib(response.data.cribId);
                 setCustomerTasks(response.data.taskId || []);
@@ -52,7 +52,7 @@ function MainMenu() {
     }
 
     function getCrib(cribId) {
-        axios.get(`http://localhost:8080/cribs/${cribId}`)
+        api.get(`/cribs/${cribId}`)
             .then(response => {
                 setCustomerCribName(response.data.cribName);
                 setShoppingListItems(response.data.shoppingListItems || []);
@@ -82,7 +82,7 @@ function MainMenu() {
     }
 
     function removeShoppingList(shoppingId){
-        axios.delete(`http://localhost:8080/shopping/${shoppingId}`).then(response => {
+        api.delete(`/shopping/${shoppingId}`).then(response => {
                 const updatedShoppingListItems = shoppingListItems.filter(item => item.shoppingListId !== shoppingId);
                 setShoppingListItems(updatedShoppingListItems);
             })
@@ -92,7 +92,7 @@ function MainMenu() {
     }
 
     function removeTask(taskId){
-        axios.delete(`http://localhost:8080/tasks/${taskId}`).then(response => {
+        api.delete(`/tasks/${taskId}`).then(response => {
             const updatedCribTasks = cribTasks.filter(item => item.taskId !== taskId)
             setCribTasks(updatedCribTasks)
         }).catch(error => {
@@ -107,7 +107,7 @@ function MainMenu() {
     }
 
     function addShoppingItem(){
-        axios.post(`http://localhost:8080/shopping/crib/${customerCrib}`, shoppingData).then(response => {
+        api.post(`/shopping/crib/${customerCrib}`, shoppingData).then(response => {
             console.log(response.data)
             setShoppingItemName("")
             setShoppingItemDescription("")
@@ -125,7 +125,7 @@ function MainMenu() {
             "description": taskDescription
 
         }
-        axios.post(`http://localhost:8080/tasks/${selectedMemberId}/${customerCrib}`, taskData).then(response => {
+        api.post(`/tasks/${selectedMemberId}/${customerCrib}`, taskData).then(response => {
                 console.log(response.data)
                 setTaskName("")
                 setTaskDescription("")
@@ -141,14 +141,14 @@ function MainMenu() {
         setCribTasks([]); // Clear the existing tasks
 
         // Fetch all tasks
-        Promise.all(taskIds.map(taskId => axios.get(`http://localhost:8080/tasks/${taskId}`)))
+        Promise.all(taskIds.map(taskId => api.get(`/tasks/${taskId}`)))
             .then(responses => {
                 // Extract task data from each response
                 const tasks = responses.map(response => response.data);
 
                 // Fetch the username for each task's customerId
                 return Promise.all(tasks.map(task => {
-                    return axios.get(`http://localhost:8080/customer/${task.customerId}`)
+                    return api.get(`/customer/${task.customerId}`)
                         .then(response => {
                             // Return the task with the username appended
                             return { ...task, username: response.data.userName };
