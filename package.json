@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "start": "serve -s dist",
+    "test": "node cypress-run.cjs",
+    "test:dev": "cypress open --config baseUrl=http://localhost:5173",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -26,6 +28,8 @@
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
+    "cypress": "^13.7.2",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
