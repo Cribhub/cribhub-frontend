@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.css'; // Assuming you have a separate CSS file for styling
-
+// button
 const Button = ({ text, onClick, className, ...props }) => {
     return (
         <button className={`button ${className}`} onClick={onClick} {...props}>
