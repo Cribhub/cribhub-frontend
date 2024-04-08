@@ -2,8 +2,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Login from './Pages/Login'
 import reportWebVitals from './reportWebVitals';
+import { ToastContainer, Bounce } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CreateAccount from "./Pages/CreateAccount";
 import MainMenu from "./Pages/MainMenu";
