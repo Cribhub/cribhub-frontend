@@ -2,23 +2,45 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Login from './Pages/Login'
 import reportWebVitals from './reportWebVitals';
+import "react-toastify/dist/ReactToastify.css";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CreateAccount from "./Pages/CreateAccount";
 import MainMenu from "./Pages/MainMenu";
 import JoinCrib from "./Pages/JoinCrib";
 import CreateCrib from "./Pages/CreateCrib";
 
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/createaccount" element={<CreateAccount />} />
-            <Route path="/mainmenu" element={<MainMenu />} />
-            <Route path="/joinCrib" element={<JoinCrib />} />
-            <Route path="/createCrib" element={<CreateCrib />} />
-        </Routes>
-    </BrowserRouter>
+    <>
+        <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/createaccount" element={<CreateAccount />} />
+                <Route path="/mainmenu" element={<MainMenu />} />
+                <Route path="/joinCrib" element={<JoinCrib />} />
+                <Route path="/createCrib" element={<CreateCrib />} />
+            </Routes>
+        </BrowserRouter>
+        </QueryClientProvider>
+
+        <ToastContainer
+            position="bottom-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover={false}
+            theme="dark"
+            transition={Bounce}
+        />
+    </>
 );
 
 // If you want to start measuring performance in your app, pass a function
