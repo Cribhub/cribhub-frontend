@@ -37,7 +37,7 @@
 //   cy.get('[placeholder="Username"]').type(username);
 //   cy.get('[placeholder="Password"]').type(password);
 //   cy.get('[placeholder="Confirm Password"]').type(password);
-//   cy.get('button').contains('CREATE').click();
+//   cy.get('button').contains('CREATE').click()
 // })
 
 Cypress.Commands.add('login', () => {
