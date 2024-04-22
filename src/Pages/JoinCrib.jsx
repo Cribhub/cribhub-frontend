@@ -17,7 +17,7 @@ function JoinCrib() {
 
 
     const handleCribIdChange = (newValue) => {
-        setCribIdValue(newValue)
+        setCribIdValue(newValue) 
     }
 
     let token = Cookies.get("Token")
