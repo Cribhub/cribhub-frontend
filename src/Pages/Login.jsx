@@ -14,7 +14,7 @@ function Login() {
     let navigate = useNavigate()
     const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
-    const flags = useFlags(['logo'])
+    const flags = useFlags(['minimallogo'])
 
     const handleEmailChange = (newValue) => {
         setEmailValue(newValue)
@@ -86,7 +86,7 @@ function Login() {
             <div className={'logo'}>
                 <div>
                     <img
-                        src={flags.logo.enabled ? simpleIcon : myImage}
+                        src={flags.minimallogo?.enabled ? simpleIcon : myImage}
                         alt="My Image"
                         className={'my-image'}
                     />
