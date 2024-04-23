@@ -27,7 +27,8 @@ function CreateCrib() {
 
     function joinCrib(cribIdValue) {
         let userId = payload.customerId;
-        console.log(userId)
+        console.log("User ID: ", userId)
+        console.log("Token: " , token)
         api.post(`/customer/${userId}/join/${cribIdValue}`)
             .then(response => {
                 console.log('Successfully joined crib:', response.data);
@@ -42,7 +43,7 @@ function CreateCrib() {
 
 
     function createCribButton(){
-            api.post("/cribs", {"cribName":cribNameValue}).then(response => {
+            api.post("/cribs", {"name":cribNameValue}).then(response => {
                 console.log(response.data.cribId)
                 let cribID = response.data.cribId
                 console.log("cribid" + cribID)

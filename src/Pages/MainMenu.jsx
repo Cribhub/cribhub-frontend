@@ -102,7 +102,7 @@ function MainMenu() {
     }
 
     let shoppingData = {
-        "shoppingName": shoppingItemName,
+        "name": shoppingItemName,
         "shoppingDescription": shoppingItemDescription
     }
 
@@ -121,7 +121,7 @@ function MainMenu() {
 
     function addTaskItem(){
         let taskData = {
-            "taskName": taskName,
+            "title": taskName,
             "description": taskDescription
 
         }
