@@ -102,7 +102,7 @@ function MainMenu() {
     }
 
     let shoppingData = {
-        "shoppingName": shoppingItemName,
+        "name": shoppingItemName,
         "shoppingDescription": shoppingItemDescription
     }
 
