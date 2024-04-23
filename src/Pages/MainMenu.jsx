@@ -121,7 +121,7 @@ function MainMenu() {
 
     function addTaskItem(){
         let taskData = {
-            "taskName": taskName,
+            "title": taskName,
             "description": taskDescription
 
         }
