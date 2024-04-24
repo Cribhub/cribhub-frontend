@@ -8,6 +8,7 @@ import ParseJwt from "./parseJwt";
 import Cookies from "js-cookie";
 import {NavLink, useNavigate} from "react-router-dom";
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 
 function JoinCrib() {
@@ -30,9 +31,9 @@ function JoinCrib() {
             navigate("/mainmenu");
         },
         onError: (error) => {
-            console.log(userId);
-            console.log(cribIdValue);
-            console.error('Error joining crib:', error);
+            /* error.response.data is empty :(
+                we have no idea whats wrong other then status code */
+            toast.error("Could not join crib");
         }
     });
 
@@ -40,7 +41,7 @@ function JoinCrib() {
         let userId = payload.customerId;
 
         if (!cribIdValue) {
-            console.error("Please enter crib ID");
+            toast.error("Please enter crib ID");
         } else {
             joinCribMutation.mutate(userId);
         }
