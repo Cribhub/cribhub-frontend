@@ -4,6 +4,7 @@ import Button from '../Components/Button/Button';
 import { NavLink, useNavigate } from 'react-router-dom';
 import api from '../api';
 import './Login.css';
+import { useMutation } from '@tanstack/react-query';
 
 function CreateAccount() {
   const navigate = useNavigate();
@@ -35,6 +36,21 @@ function CreateAccount() {
     );
   };
 
+  const createUserMutation = useMutation({
+    mutationFn: (user) => api.post("/customer", user),
+    onSuccess: (response) => {
+      console.log(response);
+      navigate("/");
+    },
+    onError: (error) => {
+      if (error.response && error.response.status === 409) {
+        setErrorMessage('Email is already in use.');
+      } else {
+        console.error('Error creating user:', error);
+      }
+    }
+});
+
   function createAccountButton() {
     if (!validateEmail(emailValue)) {
       setErrorMessage('Please enter a valid email.');
@@ -53,19 +69,7 @@ function CreateAccount() {
       password: passwordValue,
     };
 
-    api
-      .post('/customer', user)
-      .then((response) => {
-        navigate('/');
-        console.log(response);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 409) {
-          setErrorMessage('Email is already in use.');
-        } else {
-          console.error('Error creating user:', error);
-        }
-      });
+    createUserMutation.mutate(user);
   }
 
   return (
