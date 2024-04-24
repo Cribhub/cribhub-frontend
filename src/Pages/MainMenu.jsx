@@ -12,6 +12,10 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import Input from "../Components/TextInput";
 
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+
+
 
 function MainMenu() {
 
@@ -23,20 +27,17 @@ function MainMenu() {
     const [customerCrib, setCustomerCrib] = useState(null);
     const [shoppingItemName, setShoppingItemName] = useState("  ");
     const [taskName, setTaskName] = useState("  ");
+    const [dateValue, setDateValue] = useState(null);
     const [shoppingItemDescription, setShoppingItemDescription] = useState("  ");
     const [taskDescription, setTaskDescription] = useState("  ");
     const [customerCribName, setCustomerCribName] = useState(null);
     const [shoppingListItems, setShoppingListItems] = useState([]);
-    const [cribMember, setCribMembers] = useState([]);
+    const [taskItems, setTaskItems] = useState([]);
+    const [cribMembers, setCribMembers] = useState([]);
     const [cribTasks, setCribTasks] = useState([]);
-    const [customerTasks, setCustomerTasks] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [showTaskPopup, setShowTaskPopup] = useState(false);
     const [selectedMemberId, setSelectedMemberId] = useState("");
-
-
-
-
 
 
 
@@ -44,7 +45,7 @@ function MainMenu() {
         api.get(`/customer/${userId}`)
             .then(response => {
                 setCustomerCrib(response.data.cribId);
-                setCustomerTasks(response.data.taskId || []);
+                console.log("CustomerCribID = " + customerCrib)
             })
             .catch(error => {
                 console.error('Error fetching customer crib:', error);
@@ -55,12 +56,23 @@ function MainMenu() {
         api.get(`/cribs/${cribId}`)
             .then(response => {
                 setCustomerCribName(response.data.cribName);
-                setShoppingListItems(response.data.shoppingListItems || []);
-                setCribMembers(response.data.cribMembers || [])
-                getTasks(response.data.taskId)})
+                console.log("customerCribName = " + customerCribName)
+                getShoppingListItems(cribId)
+                getTaskItems(cribId)
+                getCribMembers(cribId)
+
+            })
             .catch(error => {
                 console.error('Error fetching customer crib name:', error);
             });
+    }
+
+    function getCribMembers(cribId){
+        api.get(`/cribs/${cribId}/members`).then(response=>{
+
+            setCribMembers(response.data)
+            }
+        )
     }
 
     useEffect(() => {
@@ -71,20 +83,21 @@ function MainMenu() {
         if (customerCrib) {
             getCrib(customerCrib);
         }
+
     }, [customerCrib]);
 
     function addShoppingItemPopUp(){
         setShowPopup(true)
     }
-
     function addTaskItemPopUp(){
         setShowTaskPopup(true)
     }
 
     function removeShoppingList(shoppingId){
-        api.delete(`/shopping/${shoppingId}`).then(response => {
+        api.delete(`/shopping/${shoppingId}`).then(() => {
                 const updatedShoppingListItems = shoppingListItems.filter(item => item.shoppingListId !== shoppingId);
                 setShoppingListItems(updatedShoppingListItems);
+                getCrib(customerCrib)
             })
             .catch(error => {
                 console.error('Error removing shopping list item:', error);
@@ -92,9 +105,10 @@ function MainMenu() {
     }
 
     function removeTask(taskId){
-        api.delete(`/tasks/${taskId}`).then(response => {
+        api.delete(`/tasks/${taskId}`).then(() => {
             const updatedCribTasks = cribTasks.filter(item => item.taskId !== taskId)
             setCribTasks(updatedCribTasks)
+            getCrib(customerCrib)
         }).catch(error => {
             console.log("error removing task", error)
             }
@@ -103,16 +117,17 @@ function MainMenu() {
 
     let shoppingData = {
         "name": shoppingItemName,
-        "shoppingDescription": shoppingItemDescription
+        "description": shoppingItemDescription
     }
 
     function addShoppingItem(){
+
         api.post(`/shopping/crib/${customerCrib}`, shoppingData).then(response => {
             console.log(response.data)
             setShoppingItemName("")
             setShoppingItemDescription("")
-            getCrib(customerCrib)
             setShowPopup(false)
+            getCrib(customerCrib)
             }
         ).catch(error => {
             console.log(error)
@@ -122,8 +137,8 @@ function MainMenu() {
     function addTaskItem(){
         let taskData = {
             "title": taskName,
-            "description": taskDescription
-
+            "description": taskDescription,
+            "deadlineDate": dateValue
         }
         api.post(`/tasks/${selectedMemberId}/${customerCrib}`, taskData).then(response => {
                 console.log(response.data)
@@ -133,40 +148,29 @@ function MainMenu() {
                 setShowTaskPopup(false)
             }
         ).catch(error => {
-            console.log(error)
+            console.log(error.data)
         })
     }
 
-    function getTasks(taskIds) {
-        setCribTasks([]); // Clear the existing tasks
 
-        // Fetch all tasks
-        Promise.all(taskIds.map(taskId => api.get(`/tasks/${taskId}`)))
-            .then(responses => {
-                // Extract task data from each response
-                const tasks = responses.map(response => response.data);
+    function getShoppingListItems(cribId){
+        api.get(`/cribs/${cribId}/shoppingListItems`).then(response =>{
+            setShoppingListItems(response.data)
+        })
+    }
 
-                // Fetch the username for each task's customerId
-                return Promise.all(tasks.map(task => {
-                    return api.get(`/customer/${task.customerId}`)
-                        .then(response => {
-                            // Return the task with the username appended
-                            return { ...task, username: response.data.userName };
-                        });
-                }));
-            })
-            .then(tasksWithUsernames => {
-                // Update the state with the new tasks, which include usernames
-                setCribTasks(tasksWithUsernames);
-            })
-            .catch(error => {
-                console.error('Error fetching tasks:', error);
-            });
+    function getTaskItems(cribId){
+        api.get(`/cribs/${cribId}/tasks`).then(response =>{
+            console.log(response.data)
+            setTaskItems(response.data)
+        })
     }
 
     function handleMemberSelect(event) {
         setSelectedMemberId(event.target.value);
     }
+
+    console.log(dateValue)
 
 
     return(
@@ -180,9 +184,9 @@ function MainMenu() {
                 <div id={"taskList"}>
                     <p>TASK LIST</p>
                     <ul>
-                        {cribTasks.map(item => (
+                        {taskItems.map(item => (
                             <p key={item.taskId}>
-                                {item.taskName} - {item.username}
+                                {item.taskName} -{item.description} - {item.customerId} - {item.deadlineDate}
                                 <button onClick={() => removeTask(item.taskId)}>remove</button>
                             </p>
                         ))}
@@ -195,9 +199,9 @@ function MainMenu() {
                     <p>SHOPPING LIST</p>
                     <ul>
                         {shoppingListItems.map(item => (
-                            <p key={item.shoppingListId}>
-                                {item.shoppingName} ({item.shoppingDescription})
-                                <button onClick={() => removeShoppingList(item.shoppingListId)}>remove</button>
+                            <p key={item.id}>
+                                {item.name} ({item.description})
+                                <button onClick={() => removeShoppingList(item.id)}>remove</button>
                             </p>
                         ))}
                     </ul>
@@ -238,9 +242,12 @@ function MainMenu() {
                 </div>
             </Popup>
 
-            <Popup className={"pop"} open={showTaskPopup} onClose={() => {
+            <Popup className={"pop"} closeOnDocumentClick={false} open={showTaskPopup} onClose={() => {
                 setShowTaskPopup(false);}}>
                 <div className={"PopUp"} >
+
+                    <button onClick={() => {setShowTaskPopup(false);}}>close </button>
+
 
                     <Input
                         type="email"
@@ -260,17 +267,22 @@ function MainMenu() {
                     />
 
 
+                    <DatePicker onChange={(newValue) => setDateValue(dayjs(newValue.$d).format('YYYY-MM-DD'))} />
+
+
                     <select value={selectedMemberId} onChange={handleMemberSelect}>
                         <option value="">Select a member</option>
-                        {cribMember.map(member => (
-                            <option key={member.id} value={member.id}>
-                                {member.name}
+                        {cribMembers.map(member => (
+                            <option key={member.userId} value={member.userId}>
+                                {member.userName}
                             </option>
                         ))}
                     </select>
 
 
                     <Button text={"Add to task list"} onClick={addTaskItem}/>
+
+
 
                 </div>
             </Popup>
