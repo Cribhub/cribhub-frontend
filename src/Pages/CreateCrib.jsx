@@ -27,7 +27,7 @@ function CreateCrib() {
     const joinCribMutation = useMutation({
         mutationFn: (cribIdValue) => api.post(`/customer/${payload.customerId}/join/${cribIdValue}`),
         onSuccess: () => {
-            console.log('Successfully joined crib:', response.data);
+            console.log('Successfully joined crib:');
         },
         onError: (error) => {
             console.error('Error joining crib:', error);
@@ -35,7 +35,7 @@ function CreateCrib() {
     });
 
     const createCribMutation = useMutation({
-        mutationFn: () => api.post("/cribs", {"name":cribNameValue}),
+        mutationFn: () => api.post("/cribs", {"cribName":cribNameValue}),
         onSuccess: (response) => {
             console.log(response.data.cribId);
             let cribID = response.data.cribId;
