@@ -36,7 +36,7 @@ function CreateCrib() {
     });
 
     const createCribMutation = useMutation({
-        mutationFn: () => api.post("/cribs", {"name":cribNameValue}),
+        mutationFn: () => api.post("/cribs", {"cribName":cribNameValue}),
         onSuccess: (response) => {
             console.log(response.data.cribId);
             let cribID = response.data.cribId;

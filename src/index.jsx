@@ -12,6 +12,8 @@ import JoinCrib from './Pages/JoinCrib'
 import CreateCrib from './Pages/CreateCrib'
 import flagsmith from 'flagsmith'
 import { FlagsmithProvider } from 'flagsmith/react'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -25,6 +27,7 @@ root.render(
             flagsmith={flagsmith}
         >
             <QueryClientProvider client={queryClient}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Login />} />
@@ -37,6 +40,7 @@ root.render(
                         <Route path="/createCrib" element={<CreateCrib />} />
                     </Routes>
                 </BrowserRouter>
+                </LocalizationProvider>
             </QueryClientProvider>
         </FlagsmithProvider>
 
