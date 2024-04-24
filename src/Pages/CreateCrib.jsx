@@ -7,8 +7,7 @@ import {useNavigate} from "react-router-dom"
 import api from '../api';
 import Cookies from "js-cookie";
 import ParseJwt from "./parseJwt";
-
-
+import { useMutation } from '@tanstack/react-query';
 
 function CreateCrib() {
 
@@ -25,34 +24,34 @@ function CreateCrib() {
     let token = Cookies.get("Token")
     const payload = ParseJwt(token);
 
-    function joinCrib(cribIdValue) {
-        let userId = payload.customerId;
-        console.log("User ID: ", userId)
-        console.log("Token: " , token)
-        api.post(`/customer/${userId}/join/${cribIdValue}`)
-            .then(response => {
-                console.log('Successfully joined crib:', response.data);
-                navigate("/mainmenu")
+    const joinCribMutation = useMutation({
+        mutationFn: (cribIdValue) => api.post(`/customer/${payload.customerId}/join/${cribIdValue}`),
+        onSuccess: () => {
+            console.log('Successfully joined crib:', response.data);
+        },
+        onError: (error) => {
+            console.error('Error joining crib:', error);
+        }
+    });
 
-            })
-            .catch(error => {
-                console.log(userId)
-                console.error('Error joining crib:', error);
-            });
-    }
-
+    const createCribMutation = useMutation({
+        mutationFn: () => api.post("/cribs", {"name":cribNameValue}),
+        onSuccess: (response) => {
+            console.log(response.data.cribId);
+            let cribID = response.data.cribId;
+            console.log("cribid" + cribID);
+            
+            joinCribMutation.mutate(cribID);
+            navigate("/mainMenu");
+        },
+        onError: (error) => {
+            console.error("Error creating crib:", error);
+        }
+    });
 
     function createCribButton(){
-            api.post("/cribs", {"name":cribNameValue}).then(response => {
-                console.log(response.data.cribId)
-                let cribID = response.data.cribId
-                console.log("cribid" + cribID)
-                joinCrib(cribID)
-                navigate("/mainMenu" )
-            }).catch(error => {
-                console.error("Error creating crib:", error);
-            });
-        }
+        createCribMutation.mutate();
+    }
 
 
 

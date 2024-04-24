@@ -7,7 +7,7 @@ import api from '../api';
 import ParseJwt from "./parseJwt";
 import Cookies from "js-cookie";
 import {NavLink, useNavigate} from "react-router-dom";
-
+import { useMutation } from '@tanstack/react-query';
 
 
 function JoinCrib() {
@@ -23,22 +23,27 @@ function JoinCrib() {
     let token = Cookies.get("Token")
     const payload = ParseJwt(token);
 
-
-
+    const joinCribMutation = useMutation({
+        mutationFn: (userId) => api.post(`/customer/${userId}/join/${cribIdValue}`),
+        onSuccess: (response) => {
+            console.log('Successfully joined crib:', response.data);
+            navigate("/mainmenu");
+        },
+        onError: (error) => {
+            console.log(userId);
+            console.log(cribIdValue);
+            console.error('Error joining crib:', error);
+        }
+    });
 
     function joinCrib() {
         let userId = payload.customerId;
-        api.post(`/customer/${userId}/join/${cribIdValue}`)
-            .then(response => {
-                console.log('Successfully joined crib:', response.data);
-                navigate("/mainmenu")
 
-            })
-            .catch(error => {
-                console.log(userId)
-                console.log(cribIdValue)
-                console.error('Error joining crib:', error);
-            });
+        if (!cribIdValue) {
+            console.error("Please enter crib ID");
+        } else {
+            joinCribMutation.mutate(userId);
+        }
     }
 
 

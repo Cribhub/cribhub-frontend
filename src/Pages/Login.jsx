@@ -9,6 +9,8 @@ import simpleIcon from '../home.png'
 import api from '../api'
 import Cookies from 'js-cookie'
 import { useFlags, useFlagsmith } from 'flagsmith/react'
+import parseJwt from './parseJwt'
+import { useMutation } from '@tanstack/react-query';
 
 function Login() {
     let navigate = useNavigate()
@@ -39,31 +41,10 @@ function Login() {
         }
     }
 
-    function parseJwt(token) {
-        try {
-            const base64Url = token.split('.')[1] // Get the payload part of the token
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-            const jsonPayload = decodeURIComponent(
-                atob(base64)
-                    .split('')
-                    .map(function (c) {
-                        return (
-                            '%' +
-                            ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-                        )
-                    })
-                    .join('')
-            )
 
-            return JSON.parse(jsonPayload)
-        } catch (e) {
-            return null
-        }
-    }
-
-    async function loginButtonOnclick() {
-        try {
-            const response = await api.post('/login', loginData)
+    const loginMutation = useMutation({
+        mutationFn: (loginData) => api.post("/login", loginData),
+        onSuccess: async (response) => {
             Cookies.set('Token', response.data.token)
             const payload = parseJwt(response.data.token)
             let userID = payload.customerId
@@ -76,10 +57,15 @@ function Login() {
                 console.log(response.data.token)
                 navigate('/joinCrib')
             }
-        } catch (error) {
+        },
+        onError: (error) => {
             console.log(error)
         }
-    }
+    });
+
+    const loginButtonOnclick = () => {
+        loginMutation.mutate(loginData);
+    };
 
     return (
         <div className={'container'}>
