@@ -170,8 +170,29 @@ function MainMenu() {
         setSelectedMemberId(event.target.value);
     }
 
-    console.log(dateValue)
+    function renderCalenderCell(date) {
+        const dateKey = date.toISOString().split('T')[0];
+        const dailyTasks = taskItems.filter(task => task.deadlineDate === dateKey);
 
+        return (
+            <div className="calendarCell">
+                {dailyTasks && dailyTasks.length > 0 ? (
+                    <>
+                        <div className="taskEntry" style={{ textDecoration: dailyTasks[0].completed ? 'line-through' : 'none' }}>
+                            {dailyTasks[0].taskName} - {dailyTasks[0].description}
+                        </div>
+                        {dailyTasks.length > 1 && (
+                            <div className="showMore">
+                                +{dailyTasks.length - 1} more tasks
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <div className="noTasks"></div>
+                )}
+            </div>
+        );
+    }
 
     return(
         <div className={"mainMenuContainer"}>
@@ -215,6 +236,7 @@ function MainMenu() {
                 bordered={true}
                 isoWeek={true}
                 compact={true}
+                renderCell={renderCalenderCell}
             />
 
             <Popup className={"pop"} open={showPopup} onClose={() => {
