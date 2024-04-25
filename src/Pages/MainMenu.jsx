@@ -11,9 +11,11 @@ import parseJwt from "./parseJwt";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import Input from "../Components/TextInput";
+import ToxicityChecker from '../ToxicityChecker';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
 
 
 
@@ -120,10 +122,12 @@ function MainMenu() {
         "description": shoppingItemDescription
     }
 
-    function addShoppingItem(){
+    async function addShoppingItem(){
 
+        let shoppingId;
         api.post(`/shopping/crib/${customerCrib}`, shoppingData).then(response => {
             console.log(response.data)
+            shoppingId = response.data.id
             setShoppingItemName("")
             setShoppingItemDescription("")
             setShowPopup(false)
@@ -132,16 +136,27 @@ function MainMenu() {
         ).catch(error => {
             console.log(error)
         })
+
+        const toxicityResultItem = await ToxicityChecker(shoppingItemName);
+        const toxicityResultDescription = await ToxicityChecker(shoppingItemDescription);
+
+        if (toxicityResultItem === "true" || toxicityResultDescription === "true") {
+            toast('The shopping list item name is considered toxic. Please use be respectful.')
+            console.log("toxic item detected with id: " + shoppingId)
+            removeShoppingList(shoppingId);
+        }
     }
 
-    function addTaskItem(){
+    async function addTaskItem(){
         let taskData = {
             "title": taskName,
             "description": taskDescription,
             "deadlineDate": dateValue
         }
+        let taskId;
         api.post(`/tasks/${selectedMemberId}/${customerCrib}`, taskData).then(response => {
                 console.log(response.data)
+                taskId = response.data.taskId
                 setTaskName("")
                 setTaskDescription("")
                 getCrib(customerCrib)
@@ -150,6 +165,14 @@ function MainMenu() {
         ).catch(error => {
             console.log(error.data)
         })
+
+        const toxicityResultTask = await ToxicityChecker(taskName);
+        const toxicityResultDescription = await ToxicityChecker(taskDescription);
+
+        if (toxicityResultTask === "true" || toxicityResultDescription === "true") {
+            toast('The task name is considered toxic. Please use be respectful.')
+            removeTask(taskId);
+        }
     }
 
 
