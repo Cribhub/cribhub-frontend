@@ -11,6 +11,7 @@ import Cookies from 'js-cookie'
 import { useFlags, useFlagsmith } from 'flagsmith/react'
 import parseJwt from './parseJwt'
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 function Login() {
     let navigate = useNavigate()
@@ -59,7 +60,7 @@ function Login() {
             }
         },
         onError: (error) => {
-            console.log(error)
+            toast.error("User not found");
         }
     });
 
