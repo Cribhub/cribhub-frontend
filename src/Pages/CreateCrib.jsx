@@ -8,6 +8,7 @@ import api from '../api';
 import Cookies from "js-cookie";
 import ParseJwt from "./parseJwt";
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 function CreateCrib() {
 
@@ -26,8 +27,8 @@ function CreateCrib() {
 
     const joinCribMutation = useMutation({
         mutationFn: (cribIdValue) => api.post(`/customer/${payload.customerId}/join/${cribIdValue}`),
-        onSuccess: () => {
-            console.log('Successfully joined crib:');
+        onSuccess: (response) => {
+            console.log('Successfully joined crib:', response.data);
         },
         onError: (error) => {
             console.error('Error joining crib:', error);
@@ -49,8 +50,13 @@ function CreateCrib() {
         }
     });
 
-    function createCribButton(){
-        createCribMutation.mutate();
+    function createCribButton() {
+        if (!cribNameValue) {
+            toast.error("Please add Crib name.")
+        } 
+        else {
+            createCribMutation.mutate();
+        }
     }
 
 
