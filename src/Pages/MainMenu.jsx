@@ -10,13 +10,16 @@ import { useEffect, useState } from 'react'
 import parseJwt from './parseJwt'
 import 'reactjs-popup/dist/index.css'
 import ToxicityChecker from '../ToxicityChecker.js'
-
 import { toast } from 'react-toastify'
-
 import CalendarPopup from '../Components/calenderPopUp.jsx'
 import ShoppingItemPopup from '../Components/shoppingListPopUp.jsx'
 import TaskItemPopup from '../Components/taskListPopUp.jsx'
 import ViewTaskPopUp from '../Components/viewTaskPopUp.jsx'
+import DeleteIcon from '@mui/icons-material/Delete'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import IconButton from '@mui/material/IconButton'
+
+import CheckIcon from '@mui/icons-material/Check'
 
 function MainMenu() {
     let token = Cookies.get('Token')
@@ -336,14 +339,36 @@ function MainMenu() {
                                     [{item.taskName}]{' '}
                                 </span>
 
-                                <CustomButton
-                                    onClick={() => viewTask(item)}
-                                    text={'View Task'}
-                                ></CustomButton>
-                                <CustomButton
-                                    onClick={() => taskComplete(item.taskId)}
-                                    text={'Mark as done'}
-                                ></CustomButton>
+                                <IconButton
+                                    size="small"
+                                    color="primary"
+                                    aria-label="edit"
+                                >
+                                    <VisibilityIcon
+                                        onClick={() => viewTask(item)}
+                                    />
+                                </IconButton>
+
+                                <IconButton
+                                    size="small"
+                                    color="primary"
+                                    aria-label="edit"
+                                >
+                                    <CheckIcon
+                                        onClick={() =>
+                                            taskComplete(item.taskId)
+                                        }
+                                    />
+                                </IconButton>
+                                <IconButton
+                                    size="small"
+                                    color="primary"
+                                    aria-label="edit"
+                                >
+                                    <DeleteIcon
+                                        onClick={() => removeTask(item.taskId)}
+                                    />
+                                </IconButton>
                             </p>
                         ))}
                     </ul>
@@ -358,11 +383,14 @@ function MainMenu() {
                         {shoppingListItems.map((item) => (
                             <p key={item.id}>
                                 {item.name} ({item.description})
-                                <CustomButton
-                                text="Remove"
+                                <IconButton
+                                    aria-label="delete"
+                                    size={'small'}
+                                    color="primary"
                                     onClick={() => removeShoppingList(item.id)}
                                 >
-                                </CustomButton>
+                                    <DeleteIcon />
+                                </IconButton>
                             </p>
                         ))}
                     </ul>
