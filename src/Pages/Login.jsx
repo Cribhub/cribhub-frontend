@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from '../Components/TextInput'
-import Button from '../Components/Button/Button'
+import CustomButton from '../Components/Button/CustomButton'
 import myImage from '../Logo_GreyBg.PNG'
 import simpleIcon from '../home.png'
 import api from '../api'
@@ -110,7 +110,7 @@ function Login() {
                     shape="square"
                 />
 
-                <Button text={'SUBMIT'} onClick={loginButtonOnclick} />
+                <CustomButton text={'SUBMIT'} fillColor="#a6cba4" onClick={loginButtonOnclick} />
             </div>
         </div>
     )

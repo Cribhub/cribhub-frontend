@@ -1,13 +1,13 @@
 import './Login.css'
 
 import Input from '../Components/TextInput'
-import Button from '../Components/Button/Button'
 import {useState} from "react";
 import api from '../api';
 import ParseJwt from "./parseJwt";
 import Cookies from "js-cookie";
 import {NavLink, useNavigate} from "react-router-dom";
 import { useMutation } from '@tanstack/react-query';
+import CustomButton from '../Components/Button/CustomButton';
 import { toast } from 'react-toastify';
 
 
@@ -62,7 +62,7 @@ function JoinCrib() {
                     size={"large"}
                 />
 
-                <Button text={"JOIN CRIB"} onClick={joinCrib}/>
+                <CustomButton text={"JOIN CRIB"} onClick={joinCrib}/>
 
 
                 <NavLink to="/createCrib" activeClassName="active" className={"text-wrapper-3"}>Create New Crib</NavLink>

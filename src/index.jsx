@@ -14,6 +14,8 @@ import flagsmith from 'flagsmith'
 import { FlagsmithProvider } from 'flagsmith/react'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme';
 
 const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -28,18 +30,20 @@ root.render(
         >
             <QueryClientProvider client={queryClient}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Login />} />
-                        <Route
-                            path="/createaccount"
-                            element={<CreateAccount />}
-                        />
-                        <Route path="/mainmenu" element={<MainMenu />} />
-                        <Route path="/joinCrib" element={<JoinCrib />} />
-                        <Route path="/createCrib" element={<CreateCrib />} />
-                    </Routes>
-                </BrowserRouter>
+                <ThemeProvider theme={theme}>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<Login />} />
+                            <Route
+                                path="/createaccount"
+                                element={<CreateAccount />}
+                            />
+                            <Route path="/mainmenu" element={<MainMenu />} />
+                            <Route path="/joinCrib" element={<JoinCrib />} />
+                            <Route path="/createCrib" element={<CreateCrib />} />
+                        </Routes>
+                    </BrowserRouter>
+                </ThemeProvider>
                 </LocalizationProvider>
             </QueryClientProvider>
         </FlagsmithProvider>
