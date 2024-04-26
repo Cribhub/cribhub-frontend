@@ -51,7 +51,7 @@ const Header = ({ userName, crib, cribname, userID }) => {
         mutationFn: () => api.post(`customer/${crib}/leave/${userID}`),
         onSuccess: (response) => {
             console.log("Left Crib: ", response)
-            navigate('/')
+            navigate('/joinCrib')
         },
         onError: (error) => {
             toast.error("Could not leave Crib!")
