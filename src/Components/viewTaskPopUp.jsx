@@ -35,9 +35,9 @@ class ViewTaskPopup extends React.Component {
                 closeOnDocumentClick={false}
             >
                 <div className="PopUp">
-                    <button className="close-btn" onClick={onClose}>
+                    <CustomButton text= "Close" className="close-btn" onClick={onClose}>
                         &times;
-                    </button>
+                    </CustomButton>
                     {editMode ? (
                         <>
                             <Input
@@ -68,6 +68,7 @@ class ViewTaskPopup extends React.Component {
                             <select
                                 value={selectedMemberId}
                                 onChange={handleMemberSelect}
+
                             >
                                 <option value="">Select a member</option>
                                 {members.map((member) => (
@@ -86,14 +87,16 @@ class ViewTaskPopup extends React.Component {
                         </>
                     ) : (
                         <>
-                            <h2>{selectedTask?.taskName}</h2>
-                            <p>{selectedTask?.description}</p>
-                            <p>{selectedTask?.deadlineDate}</p>
-                            <p>{selectedTask?.customerId}</p>
+                            <h2 style={{color : "#132d15"}}>{selectedTask?.taskName}</h2>
+                            <h2 style={{color : "#132d15", fontSize: "2.0em"}}><p>{selectedTask?.description}</p></h2>
+                            <span style={{ marginBottom: '20px' }} />
+                            <h2 style={{color : "#132d15"}}><p><text>Due Date:</text>{selectedTask?.deadlineDate}</p></h2>
+                            <h2 style={{color : "#132d15"}}><p><text>Task ID:</text>{selectedTask?.customerId}</p></h2>
                             <CustomButton
                                 text="Edit"
                                 onClick={() => setEditMode(true)}
                             />
+                            <span style={{ marginBottom: '10px' }} />
                             <CustomButton
                                 text={'Delete'}
                                 onClick={() => deleteTask(selectedTask.taskId)}
