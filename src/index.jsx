@@ -11,6 +11,7 @@ import MainMenu from './Pages/MainMenu'
 import JoinCrib from './Pages/JoinCrib'
 import CreateCrib from './Pages/CreateCrib'
 import flagsmith from 'flagsmith'
+import InviteLink from './Pages/InviteLink'
 import { FlagsmithProvider } from 'flagsmith/react'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -41,6 +42,7 @@ root.render(
                             <Route path="/mainmenu" element={<MainMenu />} />
                             <Route path="/joinCrib" element={<JoinCrib />} />
                             <Route path="/createCrib" element={<CreateCrib />} />
+                            <Route path="/inviteLink/:inviteId" element={<InviteLink />}/>
                         </Routes>
                     </BrowserRouter>
                 </ThemeProvider>
