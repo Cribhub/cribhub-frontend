@@ -55,7 +55,6 @@ root.render(
                             </Routes>
                         </BrowserRouter>
                     </ThemeProvider>
-                    >>>>>>> main
                 </LocalizationProvider>
             </QueryClientProvider>
         </FlagsmithProvider>
