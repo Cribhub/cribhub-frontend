@@ -11,7 +11,6 @@ import parseJwt from './parseJwt'
 import 'reactjs-popup/dist/index.css'
 import ToxicityChecker from '../ToxicityChecker.js'
 import { toast } from 'react-toastify'
-import CalendarPopup from '../Components/calenderPopUp.jsx'
 import ShoppingItemPopup from '../Components/shoppingListPopUp.jsx'
 import TaskItemPopup from '../Components/taskListPopUp.jsx'
 import ViewTaskPopUp from '../Components/viewTaskPopUp.jsx'
@@ -277,8 +276,7 @@ function MainMenu() {
                                     : 'none',
                             }}
                         >
-                            {dailyTasks[0].taskName} -{' '}
-                            {dailyTasks[0].description}
+                            {dailyTasks[0].taskName}
                         </div>
                         {dailyTasks.length > 1 && (
                             <div className="showMore">
@@ -293,21 +291,12 @@ function MainMenu() {
         )
     }
 
-    const [calenderPopUp, setCalenderPopUp] = useState(false)
-    const [selectedDate, setSelectedDate] = useState('')
-    const [selectedDateTask, setSelectedDateTask] = useState('')
-
     const handleDateSelect = (newDate) => {
         const dateKey = newDate.toISOString().split('T')[0]
-
-        setSelectedDate(dateKey)
-
         const dailyTasks = taskItems.filter(
             (task) => task.deadlineDate === dateKey
         )
-        setSelectedDateTask(dailyTasks)
-
-        setCalenderPopUp(true)
+        console.log(dailyTasks.map((item) => viewTask(item)))
     }
 
     const completedLine = {
@@ -325,7 +314,7 @@ function MainMenu() {
             />
             <div className={'firstrow'}>
                 <div id={'taskList'}>
-                    <p>TASK LIST</p>
+                    <p className={'title'}>TASK LIST</p>
                     <ul>
                         {taskItems.map((item) => (
                             <p key={item.taskId}>
@@ -336,7 +325,7 @@ function MainMenu() {
                                     }}
                                 >
                                     {' '}
-                                    [{item.taskName}]{' '}
+                                    {item.taskName}{' '}
                                 </span>
 
                                 <IconButton
@@ -378,7 +367,7 @@ function MainMenu() {
                     />
                 </div>
                 <div id={'shoppingList'}>
-                    <p>SHOPPING LIST</p>
+                    <p className={'title'}>SHOPPING LIST</p>
                     <ul>
                         {shoppingListItems.map((item) => (
                             <p key={item.id}>
@@ -408,13 +397,6 @@ function MainMenu() {
                 compact={true}
                 renderCell={renderCalenderCell}
                 onSelect={handleDateSelect}
-            />
-
-            <CalendarPopup
-                open={calenderPopUp}
-                onClose={() => setCalenderPopUp(false)}
-                selectedDate={selectedDate}
-                tasks={selectedDateTask}
             />
 
             <ViewTaskPopUp
