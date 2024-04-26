@@ -1,5 +1,6 @@
 import React from 'react'
 import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
 import Input from './TextInput'
 import CustomButton from './Button/CustomButton'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
