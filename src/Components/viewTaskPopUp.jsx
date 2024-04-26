@@ -98,8 +98,7 @@ class ViewTaskPopup extends React.Component {
                                 {selectedTask?.deadlineDate}
                             </p>
                             <p className="task-id">
-                                <strong>Task ID:</strong>{' '}
-                                {selectedTask?.customerId}
+                                <strong>Task ID:</strong> {selectedTask?.taskId}
                             </p>
                             <div className="task-actions">
                                 <CustomButton
