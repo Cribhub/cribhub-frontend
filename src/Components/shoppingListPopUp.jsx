@@ -1,6 +1,6 @@
 import Popup from 'reactjs-popup'
 import Input from './TextInput'
-import Button from './Button/Button'
+import CustomButton from './Button/CustomButton'
 import * as PropTypes from 'prop-types'
 import { Component } from 'react'
 
@@ -35,7 +35,7 @@ class ShoppingItemPopup extends Component {
                         size={'large'}
                         shape={'round'}
                     />
-                    <Button text={'Add to shopping list'} onClick={onAdd} />
+                    <CustomButton text={'Add to shopping list'} onClick={onAdd} />
                 </div>
             </Popup>
         )

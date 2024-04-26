@@ -1,7 +1,7 @@
 import React from 'react'
 import Popup from 'reactjs-popup'
 import Input from './TextInput'
-import Button from './Button/Button'
+import CustomButton from './Button/CustomButton'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 import * as PropTypes from 'prop-types'
@@ -66,7 +66,7 @@ class TaskItemPopup extends React.Component {
                             </option>
                         ))}
                     </select>
-                    <Button text={'Add to task list'} onClick={onAdd} />
+                    <CustomButton text={'Add to task list'} onClick={onAdd} />
                 </div>
             </Popup>
         )

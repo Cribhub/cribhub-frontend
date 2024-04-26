@@ -14,7 +14,8 @@ import ToxicityChecker from '../ToxicityChecker.js'
 import { toast } from 'react-toastify'
 
 import CalendarPopup from '../Components/calenderPopUp.jsx'
-import ShoppingItemPopup from '../Components/shoppingListPopUp.jsx'import TaskItemPopup from '../Components/taskListPopUp.jsx'
+import ShoppingItemPopup from '../Components/shoppingListPopUp.jsx'
+import TaskItemPopup from '../Components/taskListPopUp.jsx'
 import ViewTaskPopUp from '../Components/viewTaskPopUp.jsx'
 
 function MainMenu() {
