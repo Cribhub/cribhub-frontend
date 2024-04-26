@@ -2,7 +2,7 @@ import Popup from 'reactjs-popup'
 import Input from './TextInput'
 import CustomButton from './Button/CustomButton'
 import * as PropTypes from 'prop-types'
-import { Component } from 'react'
+import React, { Component } from 'react'
 
 // eslint-disable-next-line react/prop-types
 class ShoppingItemPopup extends Component {
@@ -19,6 +19,9 @@ class ShoppingItemPopup extends Component {
         return (
             <Popup className={'pop'} open={open} onClose={onClose}>
                 <div className={'PopUp'}>
+                    <button className={'closeButton '} onClick={onClose}>
+                        close
+                    </button>
                     <Input
                         type="email"
                         placeholder="Shopping Item"
@@ -35,7 +38,10 @@ class ShoppingItemPopup extends Component {
                         size={'large'}
                         shape={'round'}
                     />
-                    <CustomButton text={'Add to shopping list'} onClick={onAdd} />
+                    <CustomButton
+                        text={'Add to shopping list'}
+                        onClick={onAdd}
+                    />
                 </div>
             </Popup>
         )
