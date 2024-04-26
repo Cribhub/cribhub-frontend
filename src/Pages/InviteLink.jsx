@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation, useParams } from 'react-router-dom';
 import api from '../api';
 import './Login.css';
 import { useMutation } from '@tanstack/react-query';
@@ -8,36 +8,49 @@ import parseJwt from './parseJwt'
 import Cookies from 'js-cookie'
 
 
+/*
+    Please note: this is an extremely 'hacky' and unconventional way of handling 
+                 invitation codes. But deadline is coming and this works :))
+*/
+
 
 function InviteLink() {
   const navigate = useNavigate()
-  const location = useLocation();
-  const [inviteId, setInviteId] = useState(null)
+  let { parameter } = useParams();
+  const [userId, setUserId] = useState()
   
   const joinCribMutation = useMutation({
-    mutationFn: () => api.post(`/customer/${userID}/join/${cribID}`),
+    mutationFn: () => api.post(`/customer/${userId}/join/${parameter}`),
     onSuccess: (response) => {
         navigate("/mainmenu");
-        toast("Successfully join Crib!")
     },
     onError: (error) => {
-        toast.error("Could not join crib");
+        toast.error("Could not join crib! Try again.");
         console.error("Failed join: ", error);
     }
     });
 
+
     function joinCribWithInvite() {
-        // joinCribMutation.mutate()
+        let token = Cookies.get('Token')
+        const payload = parseJwt(token)
+
+        if (!payload) {
+            navigate("/")
+            toast.error("Must be logged in to use link!")
+        }
+        else {
+            let userId = payload.customerId
+            setUserId(payload.customerId)
+            joinCribMutation.mutate()
+        }
     }
     
     useEffect(() => {
-        const param = new URLSearchParams(location.search).get('inviteId');
-        setInviteId(param);
-    });
+        joinCribWithInvite();
+    }, []);
 
-    return (
-        <div>{inviteId ? <p>{ inviteId} </p>: <p>NO INVITE ID FOUND</p>} </div>
-    );
+    return (<div></div>);
 }
 
 export default InviteLink;

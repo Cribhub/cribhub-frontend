@@ -42,7 +42,7 @@ root.render(
                             <Route path="/mainmenu" element={<MainMenu />} />
                             <Route path="/joinCrib" element={<JoinCrib />} />
                             <Route path="/createCrib" element={<CreateCrib />} />
-                            <Route path="/inviteLink/:inviteId" element={<InviteLink />}/>
+                            <Route path="/inviteLink/:parameter" element={<InviteLink />}/>
                         </Routes>
                     </BrowserRouter>
                 </ThemeProvider>
