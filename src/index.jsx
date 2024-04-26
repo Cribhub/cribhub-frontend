@@ -16,6 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
+import SignIn from './Pages/SignIn'
 
 const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -33,7 +34,7 @@ root.render(
                 <ThemeProvider theme={theme}>
                     <BrowserRouter>
                         <Routes>
-                            <Route path="/" element={<Login />} />
+                            <Route path="/" element={<SignIn />} />
                             <Route
                                 path="/createaccount"
                                 element={<CreateAccount />}
@@ -50,7 +51,7 @@ root.render(
 
         <ToastContainer
             position="bottom-right"
-            autoClose={2000}
+            autoClose={3000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
