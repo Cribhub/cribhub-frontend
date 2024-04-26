@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Input from '../Components/TextInput';
-import Button from '../Components/Button/Button';
 import { NavLink, useNavigate } from 'react-router-dom';
 import api from '../api';
 import './Login.css';
 import { useMutation } from '@tanstack/react-query';
+import CustomButton from '../Components/Button/CustomButton';
 import { toast } from 'react-toastify';
 
 function CreateAccount() {
@@ -106,7 +106,7 @@ function CreateAccount() {
         />
 
 
-        <Button text={'CREATE ACCOUNT'} onClick={createAccountButton} />
+        <CustomButton text={'CREATE ACCOUNT'} onClick={createAccountButton} />
       </div>
     </div>
   );

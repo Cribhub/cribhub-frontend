@@ -1,7 +1,7 @@
 import React from 'react'
 import Popup from 'reactjs-popup'
 import Input from './TextInput'
-import Button from './Button/Button'
+import CustomButton from './Button/CustomButton'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 import * as PropTypes from 'prop-types'
@@ -84,7 +84,7 @@ class ViewTaskPopup extends React.Component {
                                     </option>
                                 ))}
                             </select>
-                            <Button text="Save Changes" onClick={handleSave} />
+                            <CustomButton text="Save Changes" onClick={handleSave} />
                         </>
                     ) : (
                         <>
@@ -92,11 +92,11 @@ class ViewTaskPopup extends React.Component {
                             <p>{selectedTask?.description}</p>
                             <p>{selectedTask?.deadlineDate}</p>
                             <p>{selectedTask?.customerId}</p>
-                            <Button
+                            <CustomButton
                                 text="Edit"
                                 onClick={() => setEditMode(true)}
                             />
-                            <Button
+                            <CustomButton
                                 text={'Delete'}
                                 onClick={() => deleteTask(selectedTask.taskId)}
                             />
