@@ -35,9 +35,9 @@ class ViewTaskPopup extends React.Component {
                 closeOnDocumentClick={false}
             >
                 <div className="PopUp">
-                    <CustomButton text= "Close" className="close-btn" onClick={onClose}>
-                        &times;
-                    </CustomButton>
+                    <button className={'closeButton '} onClick={onClose}>
+                        close
+                    </button>
                     {editMode ? (
                         <>
                             <Input
@@ -68,7 +68,6 @@ class ViewTaskPopup extends React.Component {
                             <select
                                 value={selectedMemberId}
                                 onChange={handleMemberSelect}
-
                             >
                                 <option value="">Select a member</option>
                                 {members.map((member) => (
@@ -87,11 +86,25 @@ class ViewTaskPopup extends React.Component {
                         </>
                     ) : (
                         <>
-                            <h2 style={{color : "#132d15"}}>{selectedTask?.taskName}</h2>
-                            <h2 style={{color : "#132d15", fontSize: "2.0em"}}><p>{selectedTask?.description}</p></h2>
+                            <h2 style={{ color: '#132d15' }}>
+                                {selectedTask?.taskName}
+                            </h2>
+                            <h2 style={{ color: '#132d15', fontSize: '2.0em' }}>
+                                <p>{selectedTask?.description}</p>
+                            </h2>
                             <span style={{ marginBottom: '20px' }} />
-                            <h2 style={{color : "#132d15"}}><p><text>Due Date:</text>{selectedTask?.deadlineDate}</p></h2>
-                            <h2 style={{color : "#132d15"}}><p><text>Task ID:</text>{selectedTask?.customerId}</p></h2>
+                            <h2 style={{ color: '#132d15' }}>
+                                <p>
+                                    <text>Due Date:</text>
+                                    {selectedTask?.deadlineDate}
+                                </p>
+                            </h2>
+                            <h2 style={{ color: '#132d15' }}>
+                                <p>
+                                    <text>Task ID:</text>
+                                    {selectedTask?.customerId}
+                                </p>
+                            </h2>
                             <CustomButton
                                 text="Edit"
                                 onClick={() => setEditMode(true)}
