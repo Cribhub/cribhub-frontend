@@ -20,7 +20,10 @@ import api from '../api'
 import Cookies from 'js-cookie'
 import parseJwt from './parseJwt'
 import Copyright from '../Components/Copyright'
-import theme from '../theme'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
 
 function SignIn() {
     const navigate = useNavigate()
@@ -90,20 +93,17 @@ function SignIn() {
                 sx={{
                     backgroundImage: backgroundImage,
                     backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
+                    backgroundSize: '600px',
                     backgroundPosition: 'center',
-                    backgroundSize: '500px',
+                    objectFit: 'cover',
                 }}
             />
-
             <Grid
                 item
                 xs={12}
                 sm={8}
                 md={5}
-                component={Paper}
-                elevation={60}
-                square
+                sx={{ backgroundColor: 'honeydew' }}
             >
                 <Box
                     sx={{
@@ -114,16 +114,13 @@ function SignIn() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'green' }}>
+                    <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
                         <LockPersonIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5" marginBottom={2}>
                         Sign in
                     </Typography>
-                    <NavLink
-                        to="/createaccount"
-                        activeClassName="active"
-                    >
+                    <NavLink to="/createaccount">
                         New user? Create account
                     </NavLink>
                     <Box
