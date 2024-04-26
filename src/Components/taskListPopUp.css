@@ -3,15 +3,19 @@
     background-color: #b0c4b1; /* Same background color as MainMenu */
 }
 
+.popup-content{
+    background-color: honeydew;
+    border-radius: 7px;
+}
 .PopUp {
-    background-color: #3a5a40; /* Same background color as MainMenu's PopUp */
-    padding: 20px;
-    border-radius: 8px;
+    background-color: #b0c4b1; /* Same background color as MainMenu's PopUp */
+    padding: 40px;
     width: auto; /* Adjust width as needed */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
 }
 
 .closeButton {
@@ -22,31 +26,64 @@
     background: transparent;
     cursor: pointer;
     font-size: 16px;
-    color: #fff; /* Adjust close button color as needed */
+    color: #3a5a40;
 }
 
 .closeButton:hover {
-    color: #b0c4b1; /* Red color on hover for the close button */
+    color: #4C424A;
 }
 
 .PopUp input,
 .PopUp select {
     width: 60%;
-    margin-bottom: 10px; /* Spacing between fields */
-    padding: 10px; /* Padding inside inputs */
-    border: 1px solid #4C424A; /* Same border as MainMenu */
-    border-radius: 4px; /* Rounded borders for inputs */
-    background-color: #b0c4b1; /* Input background color */
-    color: #000; /* Input text color */
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #4C424A;
+    border-radius: 4px;
+    background-color: #b0c4b1;
+    color: #000;
 }
 
 .PopUp .MuiFormControl-root {
-    width: 60%; /* Full width date picker */
-    margin-bottom: 10px; /* Spacing between fields */
+    width: 60%;
+    margin-bottom: 10px;
 }
 
-/* Add styles for your CustomButton component if needed */
 .CustomButton {
-    /* Your button styles here */
-    margin-top: 10px; /* Spacing after the last input/select */
+    margin-left: 1000px;
+    margin-top: 10px;
+}
+
+
+.task-details {
+    text-align: left;
+}
+
+.task-title {
+    text-transform: capitalize;
+    margin-bottom: 0.5em;
+    font-size: 1.5em;
+    color: #588157;
+}
+
+.task-description {
+    text-transform: none;
+    color: #3a5a40;
+    margin-bottom: 0.5em;
+}
+
+.task-due-date,
+.task-id {
+    color: #3a5a40;
+    margin-bottom: 0.5em;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1em;
+}
+
+strong {
+    font-weight: bold;
 }
