@@ -318,7 +318,7 @@ function MainMenu() {
                 userName={userName}
                 crib={customerCrib}
                 cribname={customerCribName}
-                userID = {userId}
+                userID={userId}
             />
             <div className={'firstrow'}>
                 <div id={'taskList'}>
@@ -393,6 +393,9 @@ function MainMenu() {
                 open={viewTaskPopUp}
                 onClose={() => {
                     setSelectedTask('')
+                    setTaskName('')
+                    setTaskDescription('')
+                    setEditMode(false)
                     setViewTaskPopUp(false)
                 }}
                 selectedTask={selectedTask}
@@ -423,7 +426,11 @@ function MainMenu() {
 
             <TaskItemPopup
                 open={showTaskPopup}
-                onClose={() => setShowTaskPopup(false)}
+                onClose={() => {
+                    setShowTaskPopup(false)
+                    setTaskName('')
+                    setTaskDescription('')
+                }}
                 taskName={taskName}
                 setTaskName={setTaskName}
                 taskDescription={taskDescription}
