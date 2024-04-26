@@ -12,19 +12,20 @@ import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import Logo from '../../Logo_GreyBg.PNG'
 import api from '../../api'
+import Popover from '@mui/material/Popover'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import Badge from '@mui/material/Badge'
 import MailIcon from '@mui/icons-material/Mail'
 import Avatar from '@mui/material/Avatar'
 import { deepOrange } from '@mui/material/colors'
-import { Box, Drawer } from '@mui/material'
+import { Box, Drawer, Divider } from '@mui/material'
 import List from '@mui/material/List'
+
 import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import theme from '../../theme'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import parseJwt from '../../Pages/parseJwt'
 
 const StyledAppBar = styled(AppBar)({
     flexGrow: 1,
@@ -64,12 +65,33 @@ const StyledImage = styled('img')({
 
 const Header = ({ userName, crib, cribname, userID }) => {
     const [open, setOpen] = React.useState(false)
+    const [anchorEl, setAnchorEl] = React.useState(null)
+
+    let token = Cookies.get('Token')
+    const payload = parseJwt(token)
+    const openPopper = Boolean(anchorEl)
+    const id = openPopper ? 'simple-popover' : undefined
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null)
+    }
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen)
     }
 
     const navigate = useNavigate()
+
+    const { data } = useQuery({
+        queryKey: ['notifications'],
+        queryFn: () => {
+            return api.get(`customer/${payload.customerId}/notifications`)
+        },
+    })
 
     const leaveCribMutation = useMutation({
         mutationFn: () => api.post(`customer/${crib}/leave/${userID}`),
@@ -106,9 +128,61 @@ const Header = ({ userName, crib, cribname, userID }) => {
                 </LeftContent>
                 <RightContent>
                     <Box display="flex" alignItems="center" gap={2}>
-                        <Badge badgeContent={4} color="error">
-                            <MailIcon color="action" />
-                        </Badge>
+                        {data && (
+                            <Badge
+                                aria-describedby={id}
+                                badgeContent={data.data.length}
+                                onClick={handleClick}
+                                color="error"
+                            >
+                                <MailIcon color="action" />
+                            </Badge>
+                        )}
+                        <Popover
+                            id={id}
+                            open={openPopper}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                        >
+                            <List>
+                                {data &&
+                                    data.data.map((notification) => (
+                                        <>
+                                            <ListItem key={notification.id}>
+                                                <Typography
+                                                    color={
+                                                        notification.read
+                                                            ? 'grey'
+                                                            : 'black'
+                                                    }
+                                                >
+                                                    {notification.name}
+                                                </Typography>
+                                                {notification.description !==
+                                                    null && (
+                                                    <Typography
+                                                        color={
+                                                            notification.read
+                                                                ? 'grey'
+                                                                : 'black'
+                                                        }
+                                                    >
+                                                        -
+                                                        {
+                                                            notification.description
+                                                        }
+                                                    </Typography>
+                                                )}
+                                            </ListItem>
+                                            <Divider />
+                                        </>
+                                    ))}
+                            </List>
+                        </Popover>
                         <Avatar
                             onClick={toggleDrawer(true)}
                             sx={{ bgcolor: deepOrange[500] }}

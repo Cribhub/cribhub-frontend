@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import parseJwt from './parseJwt'
 import 'reactjs-popup/dist/index.css'
 import ToxicityChecker from '../ToxicityChecker.js'
+import { QueryClient } from '@tanstack/react-query'
 
 import { toast } from 'react-toastify'
 
@@ -220,6 +221,12 @@ function MainMenu() {
             .catch((error) => {
                 console.log(error.data)
             })
+        await QueryClient.invalidateQueries(
+            {
+                queryKey: ['notifications'],
+            },
+            { throwOnError, cancelRefetch }
+        )
 
         const toxicityResultTask = await ToxicityChecker(taskName)
         const toxicityResultDescription = await ToxicityChecker(taskDescription)
@@ -359,10 +366,9 @@ function MainMenu() {
                             <p key={item.id}>
                                 {item.name} ({item.description})
                                 <CustomButton
-                                text="Remove"
+                                    text="Remove"
                                     onClick={() => removeShoppingList(item.id)}
-                                >
-                                </CustomButton>
+                                ></CustomButton>
                             </p>
                         ))}
                     </ul>
