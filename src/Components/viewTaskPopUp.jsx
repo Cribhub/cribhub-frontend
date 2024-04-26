@@ -27,11 +27,6 @@ class ViewTaskPopup extends React.Component {
             setEditMode,
         } = this.props
 
-        const handleDelete = () => {
-            if (selectedTask && selectedTask.taskId) {
-                deleteTask(selectedTask.taskId)
-            }
-        }
         return (
             <Popup
                 className="pop"
@@ -84,7 +79,10 @@ class ViewTaskPopup extends React.Component {
                                     </option>
                                 ))}
                             </select>
-                            <CustomButton text="Save Changes" onClick={handleSave} />
+                            <CustomButton
+                                text="Save Changes"
+                                onClick={handleSave}
+                            />
                         </>
                     ) : (
                         <>

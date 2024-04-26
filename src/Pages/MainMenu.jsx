@@ -85,7 +85,6 @@ function MainMenu() {
     function addTaskItemPopUp() {
         setShowTaskPopup(true)
     }
-
     function removeShoppingList(shoppingId) {
         api.delete(`/shopping/${shoppingId}`)
             .then(() => {
@@ -125,7 +124,7 @@ function MainMenu() {
         })
     }
 
-    const handleSaveTask = () => {
+    const handleSaveTask = async () => {
         let taskData = {
             title: taskName,
             description: taskDescription,
@@ -135,11 +134,26 @@ function MainMenu() {
             .then(() => {
                 setEditMode(false)
                 setViewTaskPopUp(false)
+                setTaskName('')
+                setTaskDescription('')
                 getTaskItems(customerCrib)
             })
             .catch((error) => {
                 console.error(error)
             })
+        const toxicityResultTask = await ToxicityChecker(taskName)
+        const toxicityResultDescription = await ToxicityChecker(taskDescription)
+
+        if (
+            toxicityResultTask === 'true' ||
+            toxicityResultDescription === 'true'
+        ) {
+            toast(
+                'The task name is considered toxic. Please use be respectful.'
+            )
+            console.log('task id' + selectedTask.taskId)
+            removeTask(selectedTask.taskId)
+        }
     }
 
     const [viewTaskPopUp, setViewTaskPopUp] = useState(false)
