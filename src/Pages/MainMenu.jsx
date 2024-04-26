@@ -343,11 +343,11 @@ function MainMenu() {
                         {shoppingListItems.map((item) => (
                             <p key={item.id}>
                                 {item.name} ({item.description})
-                                <button
+                                <CustomButton
+                                text="Remove"
                                     onClick={() => removeShoppingList(item.id)}
                                 >
-                                    remove
-                                </button>
+                                </CustomButton>
                             </p>
                         ))}
                     </ul>
