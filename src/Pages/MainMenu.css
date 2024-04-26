@@ -1,5 +1,5 @@
 body {
-    background-color: #b0c4b1;
+    background-color: honeydew;
 }
 .mainMenucontainer{
     height: 100vh;
@@ -20,47 +20,77 @@ body {
     list-style: none;
 }
 
-.firstrow{
+.firstrow {
     display: flex;
     flex-direction: row;
     width: 100%;
+    gap: 20px;
 }
 
-#taskList{
-    align-content: center;
-    padding: 20px;
-    border: 2px solid #4C424A;
-    width: 50%;
-    margin-left: 10px;
-    margin-right: 5px;
-    justify-content: center;
-    box-shadow:  5px 5px 5px #3a5a40;
-}
-
-#shoppingList{
-    align-content: center;
-    padding: 20px;
-    border: 2px solid #4C424A;
-    width: 50%;
-    margin-right: 10px;
-    margin-left: 5px;
-    justify-content: center;
-    box-shadow: 5px 5px 5px #3a5a40;
-
-}
-
-
-.PopUp{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #3a5a40;
-    padding: 20px;
+#taskList,
+#shoppingList {
+    background-color: #b0c4b1;
     border-radius: 8px;
+    margin: 10px;
+    flex: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.PopUp>Input{
-    margin-bottom: 10px;
-
+#taskList p,
+#shoppingList p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
 }
+
+#taskList ul,
+#shoppingList ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#taskList p:last-child,
+#shoppingList p:last-child {
+    border-bottom: none;
+}
+
+#taskList p span,
+#shoppingList p span {
+    flex-grow: 1;
+}
+
+.IconButton {
+    margin-left: 8px;
+}
+
+.CustomButton {
+    display: block;
+    margin: 10px auto;
+}
+
+.title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #3a5a40;
+    padding: 15px 10px;
+}
+
+p{
+    color: #3a5a40;
+    font-size: 1.0em;
+    text-transform: capitalize;
+}
+
+.IconButton {
+    cursor: pointer;
+}
+
+.IconButton:hover svg {
+    fill: #4C424A;
+}
+
+

@@ -1,0 +1,89 @@
+/* Assuming this color is used in the MainMenu for backgrounds */
+.pop {
+    background-color: #b0c4b1; /* Same background color as MainMenu */
+}
+
+.popup-content{
+    background-color: honeydew;
+    border-radius: 7px;
+}
+.PopUp {
+    background-color: #b0c4b1; /* Same background color as MainMenu's PopUp */
+    padding: 40px;
+    width: auto; /* Adjust width as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    color: #3a5a40;
+}
+
+.closeButton:hover {
+    color: #4C424A;
+}
+
+.PopUp input,
+.PopUp select {
+    width: 60%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #4C424A;
+    border-radius: 4px;
+    background-color: #b0c4b1;
+    color: #000;
+}
+
+.PopUp .MuiFormControl-root {
+    width: 60%;
+    margin-bottom: 10px;
+}
+
+.CustomButton {
+    margin-left: 1000px;
+    margin-top: 10px;
+}
+
+
+.task-details {
+    text-align: left;
+}
+
+.task-title {
+    text-transform: capitalize;
+    margin-bottom: 0.5em;
+    font-size: 1.5em;
+    color: #588157;
+}
+
+.task-description {
+    text-transform: none;
+    color: #3a5a40;
+    margin-bottom: 0.5em;
+}
+
+.task-due-date,
+.task-id {
+    color: #3a5a40;
+    margin-bottom: 0.5em;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1em;
+}
+
+strong {
+    font-weight: bold;
+}

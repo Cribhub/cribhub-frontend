@@ -27,11 +27,6 @@ class ViewTaskPopup extends React.Component {
             setEditMode,
         } = this.props
 
-        const handleDelete = () => {
-            if (selectedTask && selectedTask.taskId) {
-                deleteTask(selectedTask.taskId)
-            }
-        }
         return (
             <Popup
                 className="pop"
@@ -40,8 +35,8 @@ class ViewTaskPopup extends React.Component {
                 closeOnDocumentClick={false}
             >
                 <div className="PopUp">
-                    <button className="close-btn" onClick={onClose}>
-                        &times;
+                    <button className={'closeButton '} onClick={onClose}>
+                        close
                     </button>
                     {editMode ? (
                         <>
@@ -84,23 +79,41 @@ class ViewTaskPopup extends React.Component {
                                     </option>
                                 ))}
                             </select>
-                            <CustomButton text="Save Changes" onClick={handleSave} />
+                            <CustomButton
+                                text="Save Changes"
+                                onClick={handleSave}
+                            />
                         </>
                     ) : (
-                        <>
-                            <h2>{selectedTask?.taskName}</h2>
-                            <p>{selectedTask?.description}</p>
-                            <p>{selectedTask?.deadlineDate}</p>
-                            <p>{selectedTask?.customerId}</p>
-                            <CustomButton
-                                text="Edit"
-                                onClick={() => setEditMode(true)}
-                            />
-                            <CustomButton
-                                text={'Delete'}
-                                onClick={() => deleteTask(selectedTask.taskId)}
-                            />
-                        </>
+                        <div className="task-details">
+                            <h2 className="task-title">
+                                {selectedTask?.taskName}
+                            </h2>
+                            <p className="task-description">
+                                <strong>Description: </strong>
+                                {selectedTask?.description}
+                            </p>
+                            <p className="task-due-date">
+                                <strong>Due Date:</strong>{' '}
+                                {selectedTask?.deadlineDate}
+                            </p>
+                            <p className="task-id">
+                                <strong>Task ID:</strong>{' '}
+                                {selectedTask?.customerId}
+                            </p>
+                            <div className="task-actions">
+                                <CustomButton
+                                    text="Edit"
+                                    onClick={() => setEditMode(true)}
+                                />
+                                <CustomButton
+                                    text="Delete"
+                                    onClick={() =>
+                                        deleteTask(selectedTask.taskId)
+                                    }
+                                />
+                            </div>
+                        </div>
                     )}
                 </div>
             </Popup>
