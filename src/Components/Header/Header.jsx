@@ -4,6 +4,9 @@ import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Logo from '../../Logo_GreyBg.PNG';
+import api from '../../api';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 const StyledAppBar = styled(AppBar)({
     flexGrow: 1,
@@ -32,13 +35,33 @@ const StyledLogoutButton = styled(Button)({
     marginLeft: '8px', // Add left margin for spacing between items
 });
 
+const StyledLeaveCribButton = styled(Button)({
+    marginLeft: '8px', // Add left margin for spacing between items
+});
+
 const StyledImage = styled('img')({
     width: 100,
     height: 100,
 });
 
-const Header = ({ userName, crib, cribname }) => {
+const Header = ({ userName, crib, cribname, userID }) => {
     const navigate = useNavigate();
+
+    const leaveCribMutation = useMutation({
+        mutationFn: () => api.post(`customer/${crib}/leave/${userID}`),
+        onSuccess: (response) => {
+            console.log("Left Crib: ", response)
+            navigate('/joinCrib')
+        },
+        onError: (error) => {
+            toast.error("Could not leave Crib!")
+            console.error("Error leaving crib: ", error)
+        }
+    });
+
+    const leaveCribOnclick = () => {
+        leaveCribMutation.mutate();
+    };
 
     const logout = () => {
         navigate('/');
@@ -55,6 +78,9 @@ const Header = ({ userName, crib, cribname }) => {
                     <Typography variant="h6">
                         Your crib: {crib}
                     </Typography>
+                    <StyledLeaveCribButton color="inherit" onClick={leaveCribOnclick}>
+                        Leave Crib
+                    </StyledLeaveCribButton>
                 </LeftContent>
                 <RightContent>
                     <Typography variant="h6">

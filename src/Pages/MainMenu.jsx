@@ -318,6 +318,7 @@ function MainMenu() {
                 userName={userName}
                 crib={customerCrib}
                 cribname={customerCribName}
+                userID = {userId}
             />
             <div className={'firstrow'}>
                 <div id={'taskList'}>
