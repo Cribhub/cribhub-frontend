@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react'
 import parseJwt from './parseJwt'
 import 'reactjs-popup/dist/index.css'
 import ToxicityChecker from '../ToxicityChecker.js'
-import { QueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import ShoppingItemPopup from '../Components/shoppingListPopUp.jsx'
 import TaskItemPopup from '../Components/taskListPopUp.jsx'
@@ -18,6 +17,7 @@ import ViewTaskPopUp from '../Components/viewTaskPopUp.jsx'
 import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import IconButton from '@mui/material/IconButton'
+import { queryClient } from '../index'
 
 import CheckIcon from '@mui/icons-material/Check'
 
@@ -223,12 +223,13 @@ function MainMenu() {
             .catch((error) => {
                 console.log(error.data)
             })
-        await QueryClient.invalidateQueries(
-            {
-                queryKey: ['notifications'],
-            },
-            { throwOnError, cancelRefetch }
-        )
+
+        console.log('Invalidating query')
+        await queryClient.invalidateQueries({
+            queryKey: [],
+            refetchType: 'all',
+        })
+        console.log('Should have finished invalidating query')
 
         const toxicityResultTask = await ToxicityChecker(taskName)
         const toxicityResultDescription = await ToxicityChecker(taskDescription)

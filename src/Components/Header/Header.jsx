@@ -24,7 +24,6 @@ import List from '@mui/material/List'
 
 import ListItem from '@mui/material/ListItem'
 import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
 import parseJwt from '../../Pages/parseJwt'
 
 const StyledAppBar = styled(AppBar)({
@@ -46,18 +45,6 @@ const RightContent = styled('div')({
     alignItems: 'center',
 })
 
-const StyledTypography = styled(Typography)({
-    marginLeft: '8px', // Add left margin for spacing between items
-})
-
-const StyledLogoutButton = styled(Button)({
-    marginLeft: '8px', // Add left margin for spacing between items
-})
-
-const StyledLeaveCribButton = styled(Button)({
-    marginLeft: '8px', // Add left margin for spacing between items
-})
-
 const StyledImage = styled('img')({
     width: 100,
     height: 100,
@@ -72,8 +59,13 @@ const Header = ({ userName, crib, cribname, userID }) => {
     const openPopper = Boolean(anchorEl)
     const id = openPopper ? 'simple-popover' : undefined
 
-    const handleClick = (event) => {
+    const handleClick = async (event) => {
         setAnchorEl(event.currentTarget)
+        api.put(`customer/${userID}/notifications`)
+        await queryClient.invalidateQueries({
+            queryKey: [],
+            refetchType: 'all',
+        })
     }
 
     const handleClose = () => {
@@ -131,7 +123,11 @@ const Header = ({ userName, crib, cribname, userID }) => {
                         {data && (
                             <Badge
                                 aria-describedby={id}
-                                badgeContent={data.data.length}
+                                badgeContent={
+                                    data.data.filter(
+                                        (notification) => !notification.isRead
+                                    ).length
+                                }
                                 onClick={handleClick}
                                 color="error"
                             >
@@ -143,6 +139,9 @@ const Header = ({ userName, crib, cribname, userID }) => {
                             open={openPopper}
                             anchorEl={anchorEl}
                             onClose={handleClose}
+                            sx={{
+                                maxHeight: '250px',
+                            }}
                             anchorOrigin={{
                                 vertical: 'bottom',
                                 horizontal: 'left',
@@ -150,37 +149,40 @@ const Header = ({ userName, crib, cribname, userID }) => {
                         >
                             <List>
                                 {data &&
-                                    data.data.map((notification) => (
-                                        <>
-                                            <ListItem key={notification.id}>
-                                                <Typography
-                                                    color={
-                                                        notification.read
-                                                            ? 'grey'
-                                                            : 'black'
-                                                    }
-                                                >
-                                                    {notification.name}
-                                                </Typography>
-                                                {notification.description !==
-                                                    null && (
+                                    data.data
+                                        .slice()
+                                        .reverse()
+                                        .map((notification) => (
+                                            <>
+                                                <ListItem key={notification.id}>
                                                     <Typography
                                                         color={
-                                                            notification.read
+                                                            notification.isRead
                                                                 ? 'grey'
                                                                 : 'black'
                                                         }
                                                     >
-                                                        -
-                                                        {
-                                                            notification.description
-                                                        }
+                                                        {notification.name}
                                                     </Typography>
-                                                )}
-                                            </ListItem>
-                                            <Divider />
-                                        </>
-                                    ))}
+                                                    {notification.description !==
+                                                        null && (
+                                                        <Typography
+                                                            color={
+                                                                notification.isRead
+                                                                    ? 'grey'
+                                                                    : 'black'
+                                                            }
+                                                        >
+                                                            -
+                                                            {
+                                                                notification.description
+                                                            }
+                                                        </Typography>
+                                                    )}
+                                                </ListItem>
+                                                <Divider />
+                                            </>
+                                        ))}
                             </List>
                         </Popover>
                         <Avatar
