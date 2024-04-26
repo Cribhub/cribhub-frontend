@@ -1,5 +1,5 @@
 import './Login.css'
-import Button from '../Components/Button/Button'
+import CustomButton from '../Components/Button/CustomButton';
 import {Calendar} from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import "./MainMenu.css"
@@ -11,7 +11,6 @@ import parseJwt from "./parseJwt";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import Input from "../Components/TextInput";
-
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
@@ -212,7 +211,7 @@ function MainMenu() {
                             </p>
                         ))}
                     </ul>
-                    <Button text={"Add to list"} onClick={addTaskItemPopUp}/>
+                    <CustomButton text={"Add to list"} onClick={addTaskItemPopUp}/>
 
 
                 </div>
@@ -226,7 +225,7 @@ function MainMenu() {
                             </p>
                         ))}
                     </ul>
-                    <Button text={"Add to list"} onClick={addShoppingItemPopUp} />
+                    <CustomButton text={"Add to list"} onClick={addShoppingItemPopUp} />
                 </div>
 
             </div>
@@ -259,7 +258,7 @@ function MainMenu() {
                         size={"large"}
                         shape={"round"}
                     />
-                    <Button text={"Add to shopping list"} onClick={addShoppingItem}/>
+                    <CustomButton text={"Add to shopping list"} onClick={addShoppingItem}/>
 
                 </div>
             </Popup>
@@ -302,7 +301,7 @@ function MainMenu() {
                     </select>
 
 
-                    <Button text={"Add to task list"} onClick={addTaskItem}/>
+                    <CustomButton text={"Add to task list"} onClick={addTaskItem}/>
 
 
 

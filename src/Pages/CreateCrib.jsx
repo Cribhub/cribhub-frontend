@@ -1,13 +1,13 @@
 import './Login.css'
 
 import Input from '../Components/TextInput'
-import Button from '../Components/Button/Button'
 import {useState} from "react";
 import {useNavigate} from "react-router-dom"
 import api from '../api';
 import Cookies from "js-cookie";
 import ParseJwt from "./parseJwt";
 import { useMutation } from '@tanstack/react-query';
+import CustomButton from '../Components/Button/CustomButton';
 
 function CreateCrib() {
 
@@ -53,10 +53,6 @@ function CreateCrib() {
         createCribMutation.mutate();
     }
 
-
-
-
-
     return(
         <div className={""}>
 
@@ -71,7 +67,7 @@ function CreateCrib() {
                     size={"large"}
                 />
 
-                <Button
+                <CustomButton
                     text={"CREATE CRIB"}
                     onClick={createCribButton}
                 />
