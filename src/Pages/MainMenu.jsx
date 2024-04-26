@@ -1,5 +1,5 @@
 import './Login.css'
-import CustomButton from '../Components/Button/CustomButton';
+import CustomButton from '../Components/Button/CustomButton'
 import { Calendar } from 'rsuite'
 import 'rsuite/dist/rsuite.min.css'
 import './MainMenu.css'
@@ -321,20 +321,21 @@ function MainMenu() {
                                     [{item.taskName}]{' '}
                                 </span>
 
-                                <Button
+                                <CustomButton
                                     onClick={() => viewTask(item)}
                                     text={'View Task'}
-                                ></Button>
-                                <Button
+                                ></CustomButton>
+                                <CustomButton
                                     onClick={() => taskComplete(item.taskId)}
                                     text={'Mark as done'}
-                                ></Button>
+                                ></CustomButton>
                             </p>
                         ))}
                     </ul>
-                    <CustomButton text={"Add to list"} onClick={addTaskItemPopUp}/>
-
-
+                    <CustomButton
+                        text={'Add to list'}
+                        onClick={addTaskItemPopUp}
+                    />
                 </div>
                 <div id={'shoppingList'}>
                     <p>SHOPPING LIST</p>
@@ -350,7 +351,10 @@ function MainMenu() {
                             </p>
                         ))}
                     </ul>
-                    <CustomButton text={"Add to list"} onClick={addShoppingItemPopUp} />
+                    <CustomButton
+                        text={'Add to list'}
+                        onClick={addShoppingItemPopUp}
+                    />
                 </div>
             </div>
 
