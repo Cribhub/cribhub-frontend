@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import api from '../api';
 import './Login.css';
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 function CreateAccount() {
   const navigate = useNavigate();
@@ -12,7 +13,6 @@ function CreateAccount() {
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [confrimPasswordValue, setConfrimPasswordValue] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   const handleEmailChange = (newValue) => {
     setEmailValue(newValue);
@@ -43,23 +43,19 @@ function CreateAccount() {
       navigate("/");
     },
     onError: (error) => {
-      if (error.response && error.response.status === 409) {
-        setErrorMessage('Email is already in use.');
-      } else {
-        console.error('Error creating user:', error);
-      }
+      toast.error(error.response.data.errors[0].message)
     }
 });
 
   function createAccountButton() {
     if (!validateEmail(emailValue)) {
-      setErrorMessage('Please enter a valid email.');
+      toast.error('Please enter a valid email.');
       return;
     } else if (passwordValue.length < 8) {
-      setErrorMessage('Password must be at least 8 characters long.');
+      toast.error('Password must be at least 8 characters long.');
       return;
     } else if (passwordValue !== confrimPasswordValue) {
-      setErrorMessage('Passwords do not match.');
+      toast.error('Passwords do not match.');
       return;
     }
 
@@ -109,7 +105,6 @@ function CreateAccount() {
           size={'large'}
         />
 
-        {errorMessage && <div className="error">{errorMessage}</div>}
 
         <Button text={'CREATE ACCOUNT'} onClick={createAccountButton} />
       </div>
