@@ -1,12 +1,12 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import Login from './Pages/Login'
+// import Login from './Pages/Login'
 import reportWebVitals from './reportWebVitals'
 import { ToastContainer, Bounce } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import CreateAccount from './Pages/CreateAccount'
+// import CreateAccount from './Pages/CreateAccount'
 import MainMenu from './Pages/MainMenu'
 import JoinCrib from './Pages/JoinCrib'
 import CreateCrib from './Pages/CreateCrib'
@@ -17,6 +17,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from './theme'
 import SignIn from './Pages/SignIn'
+import Register from './Pages/Register'
 
 export const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -37,7 +38,7 @@ root.render(
                                 <Route path="/" element={<SignIn />} />
                                 <Route
                                     path="/createaccount"
-                                    element={<CreateAccount />}
+                                    element={<Register />}
                                 />
                                 <Route
                                     path="/mainmenu"
@@ -54,6 +55,7 @@ root.render(
                             </Routes>
                         </BrowserRouter>
                     </ThemeProvider>
+                    >>>>>>> main
                 </LocalizationProvider>
             </QueryClientProvider>
         </FlagsmithProvider>
