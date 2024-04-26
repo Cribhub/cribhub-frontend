@@ -10,13 +10,15 @@ import { useEffect, useState } from 'react'
 import parseJwt from './parseJwt'
 import 'reactjs-popup/dist/index.css'
 import ToxicityChecker from '../ToxicityChecker.js'
-
 import { toast } from 'react-toastify'
-
-import CalendarPopup from '../Components/calenderPopUp.jsx'
 import ShoppingItemPopup from '../Components/shoppingListPopUp.jsx'
 import TaskItemPopup from '../Components/taskListPopUp.jsx'
 import ViewTaskPopUp from '../Components/viewTaskPopUp.jsx'
+import DeleteIcon from '@mui/icons-material/Delete'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import IconButton from '@mui/material/IconButton'
+
+import CheckIcon from '@mui/icons-material/Check'
 
 function MainMenu() {
     let token = Cookies.get('Token')
@@ -274,8 +276,7 @@ function MainMenu() {
                                     : 'none',
                             }}
                         >
-                            {dailyTasks[0].taskName} -{' '}
-                            {dailyTasks[0].description}
+                            {dailyTasks[0].taskName}
                         </div>
                         {dailyTasks.length > 1 && (
                             <div className="showMore">
@@ -290,21 +291,12 @@ function MainMenu() {
         )
     }
 
-    const [calenderPopUp, setCalenderPopUp] = useState(false)
-    const [selectedDate, setSelectedDate] = useState('')
-    const [selectedDateTask, setSelectedDateTask] = useState('')
-
     const handleDateSelect = (newDate) => {
         const dateKey = newDate.toISOString().split('T')[0]
-
-        setSelectedDate(dateKey)
-
         const dailyTasks = taskItems.filter(
             (task) => task.deadlineDate === dateKey
         )
-        setSelectedDateTask(dailyTasks)
-
-        setCalenderPopUp(true)
+        console.log(dailyTasks.map((item) => viewTask(item)))
     }
 
     const completedLine = {
@@ -322,7 +314,7 @@ function MainMenu() {
             />
             <div className={'firstrow'}>
                 <div id={'taskList'}>
-                    <p>TASK LIST</p>
+                    <p className={'title'}>TASK LIST</p>
                     <ul>
                         {taskItems.map((item) => (
                             <p key={item.taskId}>
@@ -333,17 +325,39 @@ function MainMenu() {
                                     }}
                                 >
                                     {' '}
-                                    [{item.taskName}]{' '}
+                                    {item.taskName}{' '}
                                 </span>
 
-                                <CustomButton
-                                    onClick={() => viewTask(item)}
-                                    text={'View Task'}
-                                ></CustomButton>
-                                <CustomButton
-                                    onClick={() => taskComplete(item.taskId)}
-                                    text={'Mark as done'}
-                                ></CustomButton>
+                                <IconButton
+                                    size="small"
+                                    color="primary"
+                                    aria-label="edit"
+                                >
+                                    <VisibilityIcon
+                                        onClick={() => viewTask(item)}
+                                    />
+                                </IconButton>
+
+                                <IconButton
+                                    size="small"
+                                    color="primary"
+                                    aria-label="edit"
+                                >
+                                    <CheckIcon
+                                        onClick={() =>
+                                            taskComplete(item.taskId)
+                                        }
+                                    />
+                                </IconButton>
+                                <IconButton
+                                    size="small"
+                                    color="primary"
+                                    aria-label="edit"
+                                >
+                                    <DeleteIcon
+                                        onClick={() => removeTask(item.taskId)}
+                                    />
+                                </IconButton>
                             </p>
                         ))}
                     </ul>
@@ -353,16 +367,19 @@ function MainMenu() {
                     />
                 </div>
                 <div id={'shoppingList'}>
-                    <p>SHOPPING LIST</p>
+                    <p className={'title'}>SHOPPING LIST</p>
                     <ul>
                         {shoppingListItems.map((item) => (
                             <p key={item.id}>
                                 {item.name} ({item.description})
-                                <CustomButton
-                                text="Remove"
+                                <IconButton
+                                    aria-label="delete"
+                                    size={'small'}
+                                    color="primary"
                                     onClick={() => removeShoppingList(item.id)}
                                 >
-                                </CustomButton>
+                                    <DeleteIcon />
+                                </IconButton>
                             </p>
                         ))}
                     </ul>
@@ -380,13 +397,6 @@ function MainMenu() {
                 compact={true}
                 renderCell={renderCalenderCell}
                 onSelect={handleDateSelect}
-            />
-
-            <CalendarPopup
-                open={calenderPopUp}
-                onClose={() => setCalenderPopUp(false)}
-                selectedDate={selectedDate}
-                tasks={selectedDateTask}
             />
 
             <ViewTaskPopUp

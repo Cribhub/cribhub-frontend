@@ -85,36 +85,35 @@ class ViewTaskPopup extends React.Component {
                             />
                         </>
                     ) : (
-                        <>
-                            <h2 style={{ color: '#132d15' }}>
+                        <div className="task-details">
+                            <h2 className="task-title">
                                 {selectedTask?.taskName}
                             </h2>
-                            <h2 style={{ color: '#132d15', fontSize: '2.0em' }}>
-                                <p>{selectedTask?.description}</p>
-                            </h2>
-                            <span style={{ marginBottom: '20px' }} />
-                            <h2 style={{ color: '#132d15' }}>
-                                <p>
-                                    <text>Due Date:</text>
-                                    {selectedTask?.deadlineDate}
-                                </p>
-                            </h2>
-                            <h2 style={{ color: '#132d15' }}>
-                                <p>
-                                    <text>Task ID:</text>
-                                    {selectedTask?.customerId}
-                                </p>
-                            </h2>
-                            <CustomButton
-                                text="Edit"
-                                onClick={() => setEditMode(true)}
-                            />
-                            <span style={{ marginBottom: '10px' }} />
-                            <CustomButton
-                                text={'Delete'}
-                                onClick={() => deleteTask(selectedTask.taskId)}
-                            />
-                        </>
+                            <p className="task-description">
+                                <strong>Description: </strong>
+                                {selectedTask?.description}
+                            </p>
+                            <p className="task-due-date">
+                                <strong>Due Date:</strong>{' '}
+                                {selectedTask?.deadlineDate}
+                            </p>
+                            <p className="task-id">
+                                <strong>Task ID:</strong>{' '}
+                                {selectedTask?.customerId}
+                            </p>
+                            <div className="task-actions">
+                                <CustomButton
+                                    text="Edit"
+                                    onClick={() => setEditMode(true)}
+                                />
+                                <CustomButton
+                                    text="Delete"
+                                    onClick={() =>
+                                        deleteTask(selectedTask.taskId)
+                                    }
+                                />
+                            </div>
+                        </div>
                     )}
                 </div>
             </Popup>
