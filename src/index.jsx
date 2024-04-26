@@ -12,14 +12,14 @@ import JoinCrib from './Pages/JoinCrib'
 import CreateCrib from './Pages/CreateCrib'
 import flagsmith from 'flagsmith'
 import { FlagsmithProvider } from 'flagsmith/react'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { ThemeProvider } from '@mui/material/styles'
+import theme from './theme'
 import SignIn from './Pages/SignIn'
 import Register from './Pages/Register'
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
@@ -32,20 +32,29 @@ root.render(
         >
             <QueryClientProvider client={queryClient}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <ThemeProvider theme={theme}>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<SignIn />} />
-                            <Route
-                                path="/createaccount"
-                                element={<Register />}
-                            />
-                            <Route path="/mainmenu" element={<MainMenu />} />
-                            <Route path="/joinCrib" element={<JoinCrib />} />
-                            <Route path="/createCrib" element={<CreateCrib />} />
-                        </Routes>
-                    </BrowserRouter>
-                </ThemeProvider>
+                    <ThemeProvider theme={theme}>
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/" element={<SignIn />} />
+                                <Route
+                                    path="/createaccount"
+                                    element={<Register />}
+                                />
+                                <Route
+                                    path="/mainmenu"
+                                    element={<MainMenu />}
+                                />
+                                <Route
+                                    path="/joinCrib"
+                                    element={<JoinCrib />}
+                                />
+                                <Route
+                                    path="/createCrib"
+                                    element={<CreateCrib />}
+                                />
+                            </Routes>
+                        </BrowserRouter>
+                    </ThemeProvider>
                 </LocalizationProvider>
             </QueryClientProvider>
         </FlagsmithProvider>

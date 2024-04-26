@@ -1,87 +1,79 @@
 import './Login.css'
 
 import Input from '../Components/TextInput'
-import {useState} from "react";
-import {useNavigate} from "react-router-dom"
-import api from '../api';
-import Cookies from "js-cookie";
-import ParseJwt from "./parseJwt";
-import { useMutation } from '@tanstack/react-query';
-import CustomButton from '../Components/Button/CustomButton';
-import { toast } from 'react-toastify';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import api from '../api'
+import Cookies from 'js-cookie'
+import ParseJwt from './parseJwt'
+import { useMutation } from '@tanstack/react-query'
+import CustomButton from '../Components/Button/CustomButton'
+import { toast } from 'react-toastify'
 
 function CreateCrib() {
+    const navigate = useNavigate()
 
-    const navigate = useNavigate();
-
-
-    const [cribNameValue, setCribNameValue] = useState('');
+    const [cribNameValue, setCribNameValue] = useState('')
 
     const handleCribNameChange = (newValue) => {
         setCribNameValue(newValue)
     }
 
-
-    let token = Cookies.get("Token")
-    const payload = ParseJwt(token);
+    let token = Cookies.get('Token')
+    const payload = ParseJwt(token)
 
     const joinCribMutation = useMutation({
-        mutationFn: (cribIdValue) => api.post(`/customer/${payload.customerId}/join/${cribIdValue}`),
+        mutationFn: (cribIdValue) =>
+            api.post(`/customer/${payload.customerId}/join/${cribIdValue}`),
         onSuccess: (response) => {
-            console.log('Successfully joined crib:', response.data);
+            console.log('Successfully joined crib:', response.data)
         },
         onError: (error) => {
-            console.error('Error joining crib:', error);
-        }
-    });
+            console.error('Error joining crib:', error)
+        },
+    })
 
     const createCribMutation = useMutation({
-        mutationFn: () => api.post("/cribs", {"cribName":cribNameValue}),
+        mutationFn: () => api.post('/cribs', { cribName: cribNameValue }),
         onSuccess: (response) => {
-            console.log(response.data.cribId);
-            let cribID = response.data.cribId;
-            console.log("cribid" + cribID);
-            
-            joinCribMutation.mutate(cribID);
-            navigate("/mainMenu");
+            console.log(response.data.cribId)
+            let cribID = response.data.cribId
+            console.log('cribid' + cribID)
+
+            joinCribMutation.mutate(cribID)
+            navigate('/mainMenu')
         },
         onError: (error) => {
-            console.error("Error creating crib:", error);
-        }
-    });
+            console.error('Error creating crib:', error)
+        },
+    })
 
     function createCribButton() {
         if (!cribNameValue) {
-            toast.error("Please add Crib name.")
-        } 
-        else {
-            createCribMutation.mutate();
+            toast.error('Please add Crib name.')
+        } else {
+            createCribMutation.mutate()
         }
     }
 
-    return(
-        <div className={""}>
-
-            <div className={"form"}>
-                <p className={"text-wrapper-3"}> Create Crib: </p>
+    return (
+        <div className={''}>
+            <div className={'form'}>
+                <p className={'text-wrapper-3'}> Create Crib: </p>
 
                 <Input
-                    type= "text"
-                    placeholder={"CRIB NAME"}
+                    type="text"
+                    placeholder={'CRIB NAME'}
                     value={cribNameValue}
                     onChange={handleCribNameChange}
-                    size={"large"}
+                    size={'large'}
                 />
 
-                <CustomButton
-                    text={"CREATE CRIB"}
-                    onClick={createCribButton}
-                />
+                <CustomButton text={'CREATE CRIB'} onClick={createCribButton} />
             </div>
-
-
         </div>
     )
 }
 
 export default CreateCrib
+

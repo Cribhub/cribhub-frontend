@@ -17,6 +17,7 @@ import ViewTaskPopUp from '../Components/viewTaskPopUp.jsx'
 import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import IconButton from '@mui/material/IconButton'
+import { queryClient } from '../index'
 
 import CheckIcon from '@mui/icons-material/Check'
 
@@ -222,6 +223,13 @@ function MainMenu() {
             .catch((error) => {
                 console.log(error.data)
             })
+
+        console.log('Invalidating query')
+        await queryClient.invalidateQueries({
+            queryKey: [],
+            refetchType: 'all',
+        })
+        console.log('Should have finished invalidating query')
 
         const toxicityResultTask = await ToxicityChecker(taskName)
         const toxicityResultDescription = await ToxicityChecker(taskDescription)
