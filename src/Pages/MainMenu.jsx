@@ -9,6 +9,9 @@ import api from '../api'
 import { useEffect, useState } from 'react'
 import parseJwt from './parseJwt'
 import 'reactjs-popup/dist/index.css'
+import ToxicityChecker from '../ToxicityChecker.js'
+
+import { toast } from 'react-toastify'
 
 import CalendarPopup from '../Components/calenderPopUp.jsx'
 import ShoppingItemPopup from '../Components/shoppingListPopUp.jsx'
@@ -97,15 +100,18 @@ function MainMenu() {
             })
     }
 
-    function removeTask() {
-        api.delete(`/tasks/${selectedTask.taskId}`)
+    const removeTask = (taskId) => {
+        api.delete(`/tasks/${taskId}`)
             .then(() => {
                 const updatedCribTasks = cribTasks.filter(
-                    (item) => item.taskId !== selectedTask.taskId
+                    (item) => item.taskId !== taskId
                 )
                 setCribTasks(updatedCribTasks)
                 setViewTaskPopUp(false)
 
+                setSelectedTask('')
+                setTaskName('')
+                setTaskDescription('')
                 getTaskItems(customerCrib)
             })
             .catch((error) => {
@@ -144,15 +150,17 @@ function MainMenu() {
         setViewTaskPopUp(true)
     }
 
-    let shoppingData = {
-        name: shoppingItemName,
-        description: shoppingItemDescription,
-    }
+    async function addShoppingItem() {
+        let shoppingData = {
+            name: shoppingItemName,
+            description: shoppingItemDescription,
+        }
 
-    function addShoppingItem() {
+        let shoppingId
         api.post(`/shopping/crib/${customerCrib}`, shoppingData)
             .then((response) => {
                 console.log(response.data)
+                shoppingId = response.data.id
                 setShoppingItemName('')
                 setShoppingItemDescription('')
                 setShowPopup(false)
@@ -161,17 +169,35 @@ function MainMenu() {
             .catch((error) => {
                 console.log(error)
             })
+
+        const toxicityResultItem = await ToxicityChecker(shoppingItemName)
+        const toxicityResultDescription = await ToxicityChecker(
+            shoppingItemDescription
+        )
+
+        if (
+            toxicityResultItem === 'true' ||
+            toxicityResultDescription === 'true'
+        ) {
+            toast(
+                'The shopping list item name is considered toxic. Please use be respectful.'
+            )
+            console.log('toxic item detected with id: ' + shoppingId)
+            removeShoppingList(shoppingId)
+        }
     }
 
-    function addTaskItem() {
+    async function addTaskItem() {
         let taskData = {
             title: taskName,
             description: taskDescription,
             deadlineDate: dateValue,
         }
+        let taskId
         api.post(`/tasks/${selectedMemberId}/${customerCrib}`, taskData)
             .then((response) => {
                 console.log(response.data)
+                taskId = response.data.taskId
                 setTaskName('')
                 setTaskDescription('')
                 getTaskItems(customerCrib)
@@ -180,6 +206,20 @@ function MainMenu() {
             .catch((error) => {
                 console.log(error.data)
             })
+
+        const toxicityResultTask = await ToxicityChecker(taskName)
+        const toxicityResultDescription = await ToxicityChecker(taskDescription)
+
+        if (
+            toxicityResultTask === 'true' ||
+            toxicityResultDescription === 'true'
+        ) {
+            toast(
+                'The task name is considered toxic. Please use be respectful.'
+            )
+            console.log('task id' + taskId)
+            removeTask(taskId)
+        }
     }
 
     useEffect(() => {
