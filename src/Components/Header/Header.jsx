@@ -189,7 +189,7 @@ const Header = ({ userName, crib, cribname, userID }) => {
                             onClick={toggleDrawer(true)}
                             sx={{ bgcolor: deepOrange[500] }}
                         >
-                            MA
+                            {userName.slice(0, 2).toUpperCase()}
                         </Avatar>
                     </Box>
                 </RightContent>
@@ -216,7 +216,7 @@ const Header = ({ userName, crib, cribname, userID }) => {
                                         bgcolor: deepOrange[500],
                                     }}
                                 >
-                                    MA
+                                    {userName.slice(0, 2).toUpperCase()}
                                 </Avatar>
                             </Box>
                         </ListItem>
