@@ -153,6 +153,10 @@ const Header = ({ userName, crib, cribname, userID }) => {
                                             <>
                                                 <ListItem key={notification.id}>
                                                     <Typography
+                                                        style={{
+                                                            textTransform:
+                                                                'none',
+                                                        }}
                                                         color={
                                                             notification.isRead
                                                                 ? 'grey'
@@ -161,21 +165,6 @@ const Header = ({ userName, crib, cribname, userID }) => {
                                                     >
                                                         {notification.name}
                                                     </Typography>
-                                                    {notification.description !==
-                                                        null && (
-                                                        <Typography
-                                                            color={
-                                                                notification.isRead
-                                                                    ? 'grey'
-                                                                    : 'black'
-                                                            }
-                                                        >
-                                                            -
-                                                            {
-                                                                notification.description
-                                                            }
-                                                        </Typography>
-                                                    )}
                                                 </ListItem>
                                                 <Divider />
                                             </>
