@@ -21,6 +21,7 @@ import Avatar from '@mui/material/Avatar'
 import { deepOrange } from '@mui/material/colors'
 import { Box, Drawer, Divider } from '@mui/material'
 import List from '@mui/material/List'
+import { useQueryClient } from '@tanstack/react-query'
 
 import ListItem from '@mui/material/ListItem'
 import { useQuery } from '@tanstack/react-query'
@@ -57,19 +58,17 @@ const Header = ({ userName, crib, cribname, userID }) => {
     let token = Cookies.get('Token')
     const payload = parseJwt(token)
     const openPopper = Boolean(anchorEl)
+    const queryClient = useQueryClient()
     const id = openPopper ? 'simple-popover' : undefined
 
     const handleClick = async (event) => {
         setAnchorEl(event.currentTarget)
         api.put(`customer/${userID}/notifications`)
-        await queryClient.invalidateQueries({
-            queryKey: [],
-            refetchType: 'all',
-        })
     }
 
-    const handleClose = () => {
+    const handleClose = async () => {
         setAnchorEl(null)
+        await queryClient.invalidateQueries({ queryKey: ['notifications'] })
     }
 
     const toggleDrawer = (newOpen) => () => {
@@ -79,21 +78,19 @@ const Header = ({ userName, crib, cribname, userID }) => {
     const navigate = useNavigate()
 
     const { data } = useQuery({
-        queryKey: ['notifications'],
-        queryFn: () => {
-            return api.get(`customer/${payload.customerId}/notifications`)
+        queryKey: ['notifications', payload.customerId],
+        queryFn: async () => {
+            return await api.get(`customer/${payload.customerId}/notifications`)
         },
     })
 
     const leaveCribMutation = useMutation({
         mutationFn: () => api.post(`customer/${crib}/leave/${userID}`),
-        onSuccess: (response) => {
-            console.log('Left Crib: ', response)
+        onSuccess: () => {
             navigate('/joinCrib')
         },
-        onError: (error) => {
+        onError: () => {
             toast.error('Could not leave Crib!')
-            console.error('Error leaving crib: ', error)
         },
     })
 
@@ -156,6 +153,10 @@ const Header = ({ userName, crib, cribname, userID }) => {
                                             <>
                                                 <ListItem key={notification.id}>
                                                     <Typography
+                                                        style={{
+                                                            textTransform:
+                                                                'none',
+                                                        }}
                                                         color={
                                                             notification.isRead
                                                                 ? 'grey'
@@ -164,21 +165,6 @@ const Header = ({ userName, crib, cribname, userID }) => {
                                                     >
                                                         {notification.name}
                                                     </Typography>
-                                                    {notification.description !==
-                                                        null && (
-                                                        <Typography
-                                                            color={
-                                                                notification.isRead
-                                                                    ? 'grey'
-                                                                    : 'black'
-                                                            }
-                                                        >
-                                                            -
-                                                            {
-                                                                notification.description
-                                                            }
-                                                        </Typography>
-                                                    )}
                                                 </ListItem>
                                                 <Divider />
                                             </>
