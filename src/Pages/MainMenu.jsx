@@ -378,7 +378,9 @@ function MainMenu() {
                     <ul>
                         {shoppingListItems.map((item) => (
                             <p key={item.id}>
-                                {item.name} ({item.description})
+                                {item.name}{' '}
+                                {item.description &&
+                                    '(' + item.description + ')'}
                                 <IconButton
                                     aria-label="delete"
                                     size={'small'}
