@@ -69,7 +69,9 @@ function SignIn() {
             }
         },
         onError: (error) => {
-            toast.error('User not found')
+            toast.error(
+                'Incorrect email or password. Please provide valid credentials.'
+            )
         },
     })
 
